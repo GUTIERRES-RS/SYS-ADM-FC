@@ -6,6 +6,7 @@
 *
 * @author Thiago Belem <contato@thiagobelem.net>
 * @link http://thiagobelem.net/
+* @Editado por josé Gutierres
 *
 * @version 1.0
 * @package SistemaSeguranca
