@@ -3,19 +3,19 @@
 $host = $_SERVER['HTTP_HOST'];
 //echo "$host";
 
-if ($host=="localhost:82"){
+if ($host=="localhost"){
 
 $host         = "localhost"; # Hosting
 $user         = "root";      # Usuario de Base de Datos
 $userpw       = "q1w2e3r4";  # Password de Base de Datos
-$databasename = "painel";     # Nombre de la Base de Datos
+$databasename = "painel";    # Nombre de la Base de Datos
 
 } else {
 
 $host         = "localhost"; # Hosting
-$user         = "sginfini_sginfin";      # Usuario de Base de Datos
-$userpw       = "xCws76GByw";  # Password de Base de Datos
-$databasename = "sginfini_painel";     # Nombre de la Base de Datos
+$user         = "testes";    # Usuario de Base de Datos
+$userpw       = "11111111";  # Password de Base de Datos
+$databasename = "painel";    # Nombre de la Base de Datos
 
 }
 
