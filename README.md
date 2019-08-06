@@ -1,2 +1,2 @@
 # ADMSYSFA
-Sistema de Fluxo de Caixa de em PHP e MySql
+Sistema Administrativo Fluxo de Caixa em PHP e MySql
