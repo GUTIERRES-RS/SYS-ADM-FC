@@ -10,7 +10,7 @@
 		<li class="breadcrumb-item active">Lançamentos</li>
 		</ol>
 
-		<div class="row">
+		<div class="row overflow-auto">
 			<div class="col-12">
 <!--Ajuda alerta hide show-->
 <script>
