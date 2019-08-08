@@ -13,18 +13,16 @@
 		<div class="row">
 			<div class="col-12">
 <!--Ajuda alerta hide show-->
-<script>	
+<script>
 $(document).ready(function(){
-	
-  $("#o_ajuda").click(function(){
-	$("#ajuda").toggle();
-  });
-  
+	$( "#o_ajuda" ).click(function() {
+	  $( "#ajuda" ).toggleClass( "d-none" );
+	});
 });
 </script>
 				<h3><span class="text-warning">Relatórios</span> <small  class="text-muted" style="font-size:16px;">Aqui você gera os Relatórios. </small><button class="btn btn-sm btn-info" id="o_ajuda"><i class="fa fa-fw fa-question-circle"></i> Ajuda</button></h3>
 				
-				<div id="ajuda" class="alert alert-info alert-dismissible" style="display: none;" role="alert">
+				<div id="ajuda" class="alert alert-info alert-dismissible d-none" role="alert">
 					<strong>Informação:</strong> Para gerar os relatórios é necessário preecher todos os campos.<br />
 					No campo DATA você pode pesquisar por um Dia especifico Ex: "dd/mm/aaaa", Mês especifico Ex: "mm/aaaa" ou Ano especifico Ex: "aaaa"<br />
 					Para gerar relatorios com o campo TIPO você tem que selecionar no campo GRUPO a opção TODOS e no campo TIPO uma das opções de Entrada e outra das opções de Saida para o correto funcionamento.

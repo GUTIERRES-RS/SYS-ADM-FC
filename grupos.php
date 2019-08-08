@@ -13,18 +13,16 @@
 		<div class="row">
 			<div class="col-12">
 <!--Ajuda alerta hide show-->
-<script>	
+<script>
 $(document).ready(function(){
-  
-  $("#o_ajuda").click(function(){
-	$("#ajuda").toggle();
-  });
-  
+	$( "#o_ajuda" ).click(function() {
+	  $( "#ajuda" ).toggleClass( "d-none" );
+	});
 });
 </script>
 				<h3><span class="text-warning">Grupos</span> <small  class="text-muted" style="font-size:16px;">Aqui você insere, edita e deleta os Grupos. </small><button class="btn btn-sm btn-info" id="o_ajuda"><i class="fa fa-fw fa-question-circle"></i> Ajuda</button></h3>
 				
-				<div id="ajuda" class="alert alert-info alert-dismissible" style="display: none;" role="alert">
+				<div id="ajuda" class="alert alert-info alert-dismissible d-none" role="alert">
 					<strong>Informação:</strong>	Para inserir ou editar Grupos e necessario que todos os campos sejam preenchidos.
 				</div>
 
