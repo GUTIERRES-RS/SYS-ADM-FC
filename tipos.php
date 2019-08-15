@@ -25,106 +25,22 @@ $(document).ready(function(){
 				<div id="ajuda" class="alert alert-info alert-dismissible d-none" role="alert">
 					<strong>Informação:</strong>	Para inserir ou editar Tipos e necessario que todos os campos sejam preenchidos.
 				</div>
-<?	
-if(isset($_POST['INSERT_LANC_GRUPO']))
-{
-	$LNC_LANC_GRUPO = $_POST['LANC_GRUPO'];
-	//echo "$LNC_LANC_TIPO";
-?>
+
 <? include ('tipos_modal_insert.php'); ?>
-<script type="text/javascript">
-	$(document).ready(function() {
-        $('#Modal_INSERT').modal('show');
-    });
-</script>
-				<form action="?pag=painel&sec=index&vp=tipos" method="post" enctype="multipart/form-data">
-					
-					<div class="input-group mb-3">
-						<div class="input-group-prepend">
-							<label class="input-group-text" for="inputGroupSelect_LANC_GRUPO">LANC GRUPO</label>
-						</div>
-						<select name="LANC_GRUPO" class="custom-select" id="inputGroupSelect_LANC_GRUPO">
 
-<?							
-$sql_OP_LANC_GRP = "SELECT * FROM lanc_grupos WHERE id_empresa='$S_EMP_ID' ORDER BY descricao ASC;";
-$result_OP_LANC_GRP  = mysqli_query($connect, $sql_OP_LANC_GRP);
-
-while ($row_OP_LANC_GRP  = mysqli_fetch_assoc($result_OP_LANC_GRP )) {
-
-	$VW_L_OP_ID_GRP    = $row_OP_LANC_GRP ['id_lanc_grupo'];
-	$VW_L_OP_GRP_DESCR = $row_OP_LANC_GRP ['descricao'];
-	
-if ($LNC_LANC_GRUPO==$VW_L_OP_ID_GRP) {
-
-?>
-							<option value="<? echo "$VW_L_OP_ID_GRP";?>" selected><? echo "$VW_L_OP_GRP_DESCR";?></option>
-<?
-} else {
-
-?>
-							<option value="<? echo "$VW_L_OP_ID_GRP";?>"><? echo "$VW_L_OP_GRP_DESCR";?></option>
-<?
-
-}
-
-}
-?>
-
-						</select>
-						<div class="input-group-append">
-							<button type="submit" class="btn btn-sm btn-success" name="INSERT_LANC_GRUPO">
-								<i class="fa fa-fw fa-plus"></i>Inserir novo item
-							</button>
-						</div>
+				<div class="input-group mb-3">
+					<div class="input-group">
+						<button class="btn btn-sm btn-success" data-toggle="modal" data-target="#Modal_INSERT">
+							<i class="fa fa-fw fa-plus"></i>Inserir novo item
+						</button>
 					</div>
+				</div>
 
-				</form>
-<?
-}
-else
-{
-?>
-				<form action="?pag=painel&sec=index&vp=tipos" method="post" enctype="multipart/form-data">
-					
-					<div class="input-group mb-3">
-						<div class="input-group-prepend">
-							<label class="input-group-text" for="inputGroupSelect_LANC_GRUPO">LANC GRUPO</label>
-						</div>
-						<select name="LANC_GRUPO" class="custom-select" id="inputGroupSelect_LANC_GRUPO">
-
-<?							
-$sql_OP_LANC_GRP = "SELECT * FROM lanc_grupos WHERE id_empresa='$S_EMP_ID' ORDER BY descricao ASC;";
-$result_OP_LANC_GRP  = mysqli_query($connect, $sql_OP_LANC_GRP);
-
-while ($row_OP_LANC_GRP  = mysqli_fetch_assoc($result_OP_LANC_GRP )) {
-
-	$VW_L_OP_ID_GRP    = $row_OP_LANC_GRP ['id_lanc_grupo'];
-	$VW_L_OP_GRP_DESCR = $row_OP_LANC_GRP ['descricao'];
-
-?>
-							<option value="<? echo "$VW_L_OP_ID_GRP";?>"><? echo "$VW_L_OP_GRP_DESCR";?></option>
-<?
-}
-?>
-
-						</select>
-						<div class="input-group-append">
-							<button type="submit" class="btn btn-sm btn-success" name="INSERT_LANC_GRUPO">
-								<i class="fa fa-fw fa-plus"></i>Inserir novo item
-							</button>
-						</div>
-					</div>
-
-				</form>
-<?
-}
-?>
 				<table class="table table-striped">
 				  <thead>
 					<tr class="bg-primary text-white">
 					  <th scope="col">ID</th>
-					  <th scope="col">GRUPO</th>
-					  <th scope="col">TIPO</th>
+					  <th scope="col">DESCRIÇÂO</th>
 					  <th scope="col">AÇÕES</th>
 					</tr>
 				  </thead>
@@ -132,40 +48,31 @@ while ($row_OP_LANC_GRP  = mysqli_fetch_assoc($result_OP_LANC_GRP )) {
 				  <tbody>
 
 <?
-$sql_LANC_TIP = "SELECT * FROM lanc_tipos WHERE id_empresa='$S_EMP_ID' ORDER BY id_lanc_grupo ASC;";
-$result_LANC_TIP  = mysqli_query($connect, $sql_LANC_TIP);
+$sql_TIP = "SELECT * FROM lanc_tipos ORDER BY descricao ASC;";
+//echo "$sql_TIP";
+$result_TIP  = mysqli_query($connect, $sql_TIP);
 
-while ($row_LANC_TIP  = mysqli_fetch_assoc($result_LANC_TIP )) {
+while ($row_TIP  = mysqli_fetch_assoc($result_TIP )) {
 
-	$VW_LANC_TIP_L_ID     = $row_LANC_TIP ['id_lanc_tipo'];
-	$VW_LANC_TIP_E_ID     = $row_LANC_TIP ['id_empresa'];
-	$VW_LANC_TIP_L_G_ID   = $row_LANC_TIP ['id_lanc_grupo'];
-	$VW_LANC_TIP_DESCR    = $row_LANC_TIP ['descricao'];
-	$VW_LANC_TIP_ATIVO    = $row_LANC_TIP ['ativo'];
+	$VW_TIP_ID    = $row_TIP ['id_lanc_tipo'];
+	$VW_TIP_E_ID  = $row_TIP ['id_empresa'];
+	$VW_TIP_DESCR = $row_TIP ['descricao'];
+	$VW_TIP_ATIVO = $row_TIP ['ativo'];
 
-?>
+$TIP_ID = $_POST['TIP_ID'];
 
-					<tr>
-					  <th scope="row"><? echo "$VW_LANC_TIP_L_ID";?></th>
-<?
-$sql_LANC_GRP = "SELECT * FROM lanc_grupos WHERE id_empresa='$S_EMP_ID' AND id_lanc_grupo=$VW_LANC_TIP_L_G_ID;";
-$result_LANC_GRP  = mysqli_query($connect, $sql_LANC_GRP);
-
-while ($row_LANC_GRP  = mysqli_fetch_assoc($result_LANC_GRP )) {
-
-	$VW_L_GRP_DESCR = $row_LANC_GRP ['descricao'];
+if ( $VW_TIP_ID=="$TIP_ID" ) { $BG_TR_L="bg-info text-white"; } else { $BG_TR_L=""; }
 
 ?>
-					  <td><? echo "$VW_L_GRP_DESCR";?></td>
-<?
-}
-?>
-					  <td><? echo "$VW_LANC_TIP_DESCR";?></td>
+
+					<tr class="<? echo "$BG_TR_L";?>">
+					  <th scope="row"><? echo "$VW_TIP_ID";?></th>
+					  <td><? echo "$VW_TIP_DESCR";?></td>
 					  <td class="align-right" style="width:115px;">
 					  
 						<div class="float-left">
 							<!-- Button trigger modal -->
-							<a class="btn btn-sm btn-primary text-white" data-toggle="modal" data-target="#Modal_<? echo "$VW_LANC_TIP_L_ID";?>">
+							<a class="btn btn-sm btn-primary text-white" data-toggle="modal" data-target="#Modal_<? echo "$VW_TIP_ID";?>">
 								<i class="fa fa-fw fa-edit"></i>
 							</a>
 						</div>
@@ -176,7 +83,7 @@ while ($row_LANC_GRP  = mysqli_fetch_assoc($result_LANC_GRP )) {
 							<!-- Button trigger modal -->
 							<form action="?pag=painel&sec=index&vp=tipos" method="post" enctype="multipart/form-data">
 							
-								<input type="hidden" name="L_TIP_ID" value="<? echo "$VW_LANC_TIP_L_ID";?>" />
+								<input type="hidden" name="TIP_ID" value="<? echo "$VW_TIP_ID";?>" />
 								
 								<button type="submit" class="btn btn-sm btn-danger" name ="DELETAR">
 									<i class="fa fa-fw fa-trash"></i>

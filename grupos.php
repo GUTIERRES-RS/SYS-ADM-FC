@@ -29,7 +29,7 @@ $(document).ready(function(){
 <? include ('grupos_modal_insert.php'); ?>
 					
 				<div class="input-group mb-3">
-					<div class="input-group-append">
+					<div class="input-group">
 						<button class="btn btn-sm btn-success" data-toggle="modal" data-target="#Modal_INSERT">
 							<i class="fa fa-fw fa-plus"></i>Inserir novo item
 						</button>
@@ -48,25 +48,31 @@ $(document).ready(function(){
 				  <tbody>
 
 <?
-$sql_LANC_GRP = "SELECT * FROM lanc_grupos WHERE id_empresa='$S_EMP_ID' ORDER BY id_lanc_grupo DESC;";
-$result_LANC_GRP  = mysqli_query($connect, $sql_LANC_GRP);
+$sql_GRP = "SELECT * FROM lanc_grupos WHERE id_empresa='$S_EMP_ID' ORDER BY descricao DESC;";
+//echo "$sql_GRP";
+$result_GRP  = mysqli_query($connect, $sql_GRP);
 
-while ($row_LANC_GRP  = mysqli_fetch_assoc($result_LANC_GRP )) {
+while ($row_GRP  = mysqli_fetch_assoc($result_GRP )) {
 
-	$VW_LANC_GRP_L_G_ID = $row_LANC_GRP ['id_lanc_grupo'];
-	$VW_LANC_GRP_DESCR  = $row_LANC_GRP ['descricao'];
-	$VW_LANC_GRP_ATIVO  = $row_LANC_GRP ['ativo'];
+	$VW_GRP_ID    = $row_GRP ['id_lanc_grupo'];
+	$VW_GRP_E_ID  = $row_GRP ['id_empresa'];
+	$VW_GRP_DESCR = $row_GRP ['descricao'];
+	$VW_GRP_ATIVO = $row_GRP ['ativo'];
+
+$GRP_ID = $_POST['GRP_ID'];
+
+if ( $VW_GRP_ID=="$GRP_ID" ) { $BG_TR_L="bg-info text-white"; } else { $BG_TR_L=""; }
 
 ?>
 
-					<tr>
-					  <th scope="row"><? echo "$VW_LANC_GRP_L_G_ID";?></th>
-					  <td><? echo "$VW_LANC_GRP_DESCR";?></td>
+					<tr class="<? echo "$BG_TR_L";?>">
+					  <th scope="row"><? echo "$VW_GRP_ID";?></th>
+					  <td><? echo "$VW_GRP_DESCR";?></td>
 					  <td class="align-right" style="width:115px;">
 					  
 						<div class="float-left">
 							<!-- Button trigger modal -->
-							<a class="btn btn-sm btn-primary text-white" data-toggle="modal" data-target="#Modal_<? echo "$VW_LANC_GRP_L_G_ID";?>">
+							<a class="btn btn-sm btn-primary text-white" data-toggle="modal" data-target="#Modal_<? echo "$VW_GRP_ID";?>">
 								<i class="fa fa-fw fa-edit"></i>
 							</a>
 						</div>
@@ -77,7 +83,7 @@ while ($row_LANC_GRP  = mysqli_fetch_assoc($result_LANC_GRP )) {
 							<!-- Button trigger modal -->
 							<form action="?pag=painel&sec=index&vp=grupos" method="post" enctype="multipart/form-data">
 							
-								<input type="hidden" name="L_G_ID" value="<? echo "$VW_LANC_GRP_L_G_ID";?>" />
+								<input type="hidden" name="GRP_ID" value="<? echo "$VW_GRP_ID";?>" />
 								
 								<button type="submit" class="btn btn-sm btn-danger" name ="DELETAR">
 									<i class="fa fa-fw fa-trash"></i>

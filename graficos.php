@@ -16,15 +16,15 @@
 for ($x = 1; $x <= 12; $x++) {
 
 $N = '0';
-$sql_LANC_GRP = "SELECT * FROM lanc_grupos ORDER BY id_lanc_grupo ASC;";
-$result_LANC_GRP  = mysqli_query($connect, $sql_LANC_GRP);
+$sql_LANC_TIP = "SELECT * FROM lanc_tipos ORDER BY id_lanc_tipo ASC;";
+$result_LANC_TIP  = mysqli_query($connect, $sql_LANC_TIP);
 
-while ($row_LANC_GRP  = mysqli_fetch_assoc($result_LANC_GRP )) {
+while ($row_LANC_TIP  = mysqli_fetch_assoc($result_LANC_TIP )) {
 
-	$ID_L_G    = $row_LANC_GRP ['id_lanc_grupo'];
-	$DESCR_L_G = $row_LANC_GRP ['descricao'];
+	$ID_L_T    = $row_LANC_TIP ['id_lanc_tipo'];
+	$DESCR_L_T = $row_LANC_TIP ['descricao'];
 
-$sql_LANC_SOMA = "SELECT id_empresa, SUM(valor) as SOMA FROM lancamentos WHERE id_empresa='$S_EMP_ID' AND id_lanc_grupo='$ID_L_G' AND YEAR(data) = '$TO_A' AND MONTH(data) = '$x';";
+$sql_LANC_SOMA = "SELECT id_empresa, SUM(valor) as SOMA FROM lancamentos WHERE id_empresa='$S_EMP_ID' AND id_lanc_tipo='$ID_L_T' AND YEAR(data) = '$TO_A' AND MONTH(data) = '$x';";
 
     $result_LANC_SOMA = mysqli_query($connect, $sql_LANC_SOMA);
 	

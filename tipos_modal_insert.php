@@ -12,8 +12,7 @@
 					  </div>
 					  <div class="modal-body">
 						
-						<input type="hidden" name="L_TIP_ID" value="0" />
-						<input type="hidden" name="LANC_GRUPO_TIP" value="<? echo "$LNC_LANC_GRUPO";?>" />
+						<input type="hidden" name="TIP_ID" value="0" />
 
 						<div class="card-body">
 						
@@ -23,7 +22,7 @@
 								  <div class="input-group-prepend">
 									<span class="input-group-text" id="basic-addon1">Descrição</span>
 								  </div>
-								  <input type="text" name="DESCR_TIP" value="" class="form-control" aria-label="Titulo" aria-describedby="basic-addon1" placeholder="Breve descrição sobre" />
+								  <input type="text" name="TIP_DESCR" value="" class="form-control" aria-label="Titulo" aria-describedby="basic-addon1" placeholder="Breve descrição sobre" />
 								</div>
 							
 							</div>

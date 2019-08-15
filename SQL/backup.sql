@@ -54,7 +54,7 @@ CREATE TABLE `lanc_grupos` (
   `descricao` varchar(255) DEFAULT NULL,
   `ativo` varchar(2) DEFAULT NULL,
   PRIMARY KEY (`id_lanc_grupo`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -63,7 +63,7 @@ CREATE TABLE `lanc_grupos` (
 
 LOCK TABLES `lanc_grupos` WRITE;
 /*!40000 ALTER TABLE `lanc_grupos` DISABLE KEYS */;
-INSERT INTO `lanc_grupos` VALUES (1,1,'Entrada','1'),(2,1,'Saída','1');
+INSERT INTO `lanc_grupos` VALUES (1,1,'BATATA','1'),(2,1,'COMBUSTIVEL','1'),(3,1,'ALFACE','1'),(4,1,'PESSOAL','1'),(5,1,'AGUA','1'),(6,1,'LUZ','1');
 /*!40000 ALTER TABLE `lanc_grupos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -77,11 +77,10 @@ DROP TABLE IF EXISTS `lanc_tipos`;
 CREATE TABLE `lanc_tipos` (
   `id_lanc_tipo` int(11) NOT NULL AUTO_INCREMENT,
   `id_empresa` int(11) NOT NULL,
-  `id_lanc_grupo` int(11) NOT NULL,
   `descricao` varchar(255) DEFAULT NULL,
   `ativo` varchar(2) DEFAULT NULL,
   PRIMARY KEY (`id_lanc_tipo`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -90,7 +89,7 @@ CREATE TABLE `lanc_tipos` (
 
 LOCK TABLES `lanc_tipos` WRITE;
 /*!40000 ALTER TABLE `lanc_tipos` DISABLE KEYS */;
-INSERT INTO `lanc_tipos` VALUES (1,1,1,'BATATA','1'),(2,1,2,'COMBUSTIVEL','1'),(3,1,1,'ALFACE','1'),(4,1,2,'PESSOAL','1'),(5,1,2,'AGUA','1'),(6,1,2,'LUZ','1');
+INSERT INTO `lanc_tipos` VALUES (1,1,'Entrada','1'),(2,1,'Saída','1');
 /*!40000 ALTER TABLE `lanc_tipos` ENABLE KEYS */;
 UNLOCK TABLES;
 

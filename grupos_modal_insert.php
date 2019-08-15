@@ -12,7 +12,7 @@
 					  </div>
 					  <div class="modal-body">
 						
-						<input type="hidden" name="L_G_ID" value="0" />
+						<input type="hidden" name="GRP_ID" value="0" />
 
 						<div class="card-body">
 						
@@ -22,7 +22,7 @@
 								  <div class="input-group-prepend">
 									<span class="input-group-text" id="basic-addon1">Descrição</span>
 								  </div>
-								  <input type="text" name="DESCRICAO" value="" class="form-control" aria-label="Titulo" aria-describedby="basic-addon1" placeholder="Breve descrição sobre" />
+								  <input type="text" name="GRP_DESCR" value="" class="form-control" aria-label="Titulo" aria-describedby="basic-addon1" placeholder="Breve descrição sobre" />
 								</div>
 							
 							</div>

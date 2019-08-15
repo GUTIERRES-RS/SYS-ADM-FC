@@ -5,15 +5,15 @@
 				  <div class="modal-dialog modal-lg" role="document">
 					<div class="modal-content">
 					  <div class="modal-header">
-						<h5 class="modal-title" id="ModalLabel_INSERT">INSERIR NOVO LANÇAMENTO <small class="text-muted">Preecha abaixo com os dados do novo lançamento</small></h5>
+						<h5 class="modal-title" id="ModalLabel_INSERT">NOVO LANÇAMENTO: <span class="badge badge-warning"><?echo "$LANC_GRP_DESCR"; ?></span> <small class="text-muted">Preecha todos os dados</small></h5>
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						  <span aria-hidden="true">&times;</span>
 						</button>
 					  </div>
 					  <div class="modal-body">
 						
-						<input type="hidden" name="L_ID" value="0" />
-						<input type="hidden" name="LANC_GRUPO" value="<? echo "$LANC_GRUPO";?>" />
+						<input type="hidden" name="LANC_ID" value="0" />
+						<input type="hidden" name="LANC_GRP_ID" value="<? echo "$LANC_GRP_ID";?>" />
 
 						<div class="card-body">
 						
@@ -23,18 +23,19 @@
 								  <div class="input-group-prepend">
 									<label class="input-group-text" for="inputGroupSelect_LANC_TIPO">TIPO</label>
 								  </div>
-								  <select name="LANC_TIPO" class="custom-select" id="inputGroupSelect_LANC_TIPO">
+								  <select name="LANC_TIP_ID" class="custom-select" id="inputGroupSelect_LANC_TIPO">
 
 <?
-$sql_OP_LANC_TIP = "SELECT * FROM lanc_tipos WHERE id_empresa='$S_EMP_ID' AND id_lanc_grupo='$LANC_GRUPO';";
-$result_OP_LANC_TIP  = mysqli_query($connect, $sql_OP_LANC_TIP);
+$sql_TIP = "SELECT * FROM lanc_tipos ORDER BY descricao ASC;";
+//echo "$sql_TIP";
+$result_TIP  = mysqli_query($connect, $sql_TIP);
 
-while ($row_OP_LANC_TIP  = mysqli_fetch_assoc($result_OP_LANC_TIP )) {
+while ($row_TIP  = mysqli_fetch_assoc($result_TIP )) {
 
-	$VW_L_OP_ID_TIP    = $row_OP_LANC_TIP ['id_lanc_tipo'];
-	$VW_L_OP_TIP_DESCR = $row_OP_LANC_TIP ['descricao'];
+	$VW_TIP_ID    = $row_TIP ['id_lanc_tipo'];
+	$VW_TIP_DESCR = $row_TIP ['descricao'];
 ?>
-									<option value="<? echo "$VW_L_OP_ID_TIP";?>"><? echo "$VW_L_OP_TIP_DESCR";?></option>
+									<option value="<? echo "$VW_TIP_ID";?>"><? echo "$VW_TIP_DESCR";?></option>
 <?
 }
 ?>
@@ -46,21 +47,21 @@ while ($row_OP_LANC_TIP  = mysqli_fetch_assoc($result_OP_LANC_TIP )) {
 								  <div class="input-group-prepend">
 									<span class="input-group-text" id="basic-addon1">Observação</span>
 								  </div>
-								  <input type="text" name="OBSERVACAO" value="" class="form-control" aria-label="Titulo" aria-describedby="basic-addon1" placeholder="Breve descrição sobre" />
+								  <input type="text" name="LANC_OBSERVACAO" value="" class="form-control" aria-label="Titulo" aria-describedby="basic-addon1" placeholder="Breve descrição sobre" />
 								</div>
 								
 								<div class="input-group mb-3">
 								  <div class="input-group-prepend">
 									<span class="input-group-text" id="basic-addon1">Valor R$</span>
 								  </div>
-								  <input type="text" name="VALOR" value="0,00" class="form-control" aria-label="Titulo" aria-describedby="basic-addon1" placeholder="0,00" />
+								  <input type="text" name="LANC_VALOR" value="0,00" class="form-control" aria-label="Titulo" aria-describedby="basic-addon1" placeholder="0,00" />
 								</div>
 								
 								<div class="input-group mb-3">
 								  <div class="input-group-prepend">
 									<span class="input-group-text" id="basic-addon1">Data</span>
 								  </div>
-								  <input type="text" name="DATA" value="<? echo"$LANC_DATA"; ?>" class="form-control" aria-label="Titulo" aria-describedby="basic-addon1" placeholder="dd/mm/aaaa" />
+								  <input type="text" name="LANC_DATA" value="<? echo"$LANC_DATA"; ?>" class="form-control" aria-label="Titulo" aria-describedby="basic-addon1" placeholder="dd/mm/aaaa" />
 								</div>
 							
 							</div>

@@ -48,9 +48,7 @@ while ($row_EMP  = mysqli_fetch_assoc($result_EMP )) {
 			<i class="fa fa-fw fa-list-ol"></i>
 			<span class="nav-link-text">Lançamentos</span>
 		  </a>
-		</li>
-
-<? if ($_SESSION['usuario_usr_p_Nivel']=='1') { ?>	
+		</li>	
 		
 		<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Grupos">
 		  <a class="nav-link" href="?pag=painel&sec=index&vp=grupos">
@@ -59,7 +57,7 @@ while ($row_EMP  = mysqli_fetch_assoc($result_EMP )) {
 		  </a>
 		</li>
 
-<?}?>
+<? if ($_SESSION['usuario_usr_p_Nivel']=='1') { ?>
 
 		<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tipos">
 		  <a class="nav-link" href="?pag=painel&sec=index&vp=tipos">
@@ -67,7 +65,9 @@ while ($row_EMP  = mysqli_fetch_assoc($result_EMP )) {
 			<span class="nav-link-text">Tipos</span>
 		  </a>
 		</li>
-		
+
+<?}?>
+
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Usuario">
           <a class="nav-link" href="?pag=painel&sec=index&vp=usuarios">
             <i class="fa fa-fw fa-user-plus"></i>
