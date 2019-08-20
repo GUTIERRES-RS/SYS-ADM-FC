@@ -15,7 +15,7 @@ include ('db.php');
 
 session_start();
 
-if ($_GET['pag']=="painel") {
+if ($_GET['pag']=="painel" | $_GET['sec']=="index") {
 include("seguranca.php"); // Inclui o arquivo com o sistema de segurança
 
 	if ($_GET['sec']=="index") {
