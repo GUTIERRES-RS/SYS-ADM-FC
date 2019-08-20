@@ -1,4 +1,4 @@
-# ADMSYSFA
+# SYS-ADM-FC
 Sistema Administrativo Fluxo de Caixa em PHP e MySql
 
 Metas com esse projeto:
