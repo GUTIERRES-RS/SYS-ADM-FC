@@ -82,7 +82,7 @@ if ( $LANC_GRP_ID_DESCR=='' | $LANC_GRP_ID_DESCR=='0' | $LANC_DATA=='' | $D_X_A=
 							<span class="input-group-text">GRUPO</span>
 						</div>
 
-						<select name="LANC_GRP_ID_DESCR" class="form-control selectpicker" data-max-options="1" data-live-search="true" multiple>
+						<select name="LANC_GRP_ID_DESCR" class="form-control selectpicker" data-max-options="1" data-live-search="true" data-style="custom-select" data-width="75%" multiple>
 
 <?							
 $sql_GRP = "SELECT * FROM lanc_grupos WHERE id_empresa='$S_EMP_ID' ORDER BY descricao ASC;";
@@ -115,7 +115,7 @@ if ($LANC_GRP_ID==$VW_GRP_ID) {
 						</select>
 						<div class="input-group-append">
 							<button type="submit" class="btn btn-sm btn-success" name="INSERT_LANC_GRUPO">
-								<i class="fa fa-fw fa-plus"></i>Inserir novo item 2
+								<i class="fa fa-fw fa-plus"></i>Inserir novo item
 							</button>
 						</div>
 					</div>
@@ -159,7 +159,7 @@ $D_X_C = $DATA_W[2];
 							<span class="input-group-text">GRUPO</span>
 						</div>
 
-						<select name="LANC_GRP_ID_DESCR" class="form-control selectpicker" data-max-options="1" data-live-search="true" multiple>
+						<select name="LANC_GRP_ID_DESCR" class="form-control selectpicker" data-max-options="1" data-live-search="true" data-style="custom-select" data-width="75%" multiple>
 
 <?							
 $sql_GRP = "SELECT * FROM lanc_grupos WHERE id_empresa='$S_EMP_ID' ORDER BY descricao ASC;";
@@ -192,7 +192,7 @@ if ($LANC_GRP_ID==$VW_GRP_ID) {
 						</select>
 						<div class="input-group-append">
 							<button type="submit" class="btn btn-sm btn-success" name="INSERT_LANC_GRUPO">
-								<i class="fa fa-fw fa-plus"></i>Inserir novo item 1
+								<i class="fa fa-fw fa-plus"></i>Inserir novo item
 							</button>
 						</div>
 					</div>

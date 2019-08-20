@@ -22,7 +22,7 @@
 
 				<div style="width: 100%;">
 				
-					<a class="btn btn-primary" target="_BLANK" href="elFinder-2.1.38/elfinder.php"><i class="fa fa-fw fa-folder-open"></i> Open FTP com ElFinder</a>
+					<a class="btn btn-primary" target="_BLANK" href="../elFinder-2.1.49/"><i class="fa fa-fw fa-folder-open"></i> Open FTP com ElFinder</a>
 				
 				</div>
 				
