@@ -2,7 +2,15 @@
     <div class="container-fluid">
 
 <script type="text/javascript" src="vendor/charts/loader.js"></script>
+<?
+$sql_LANC_TIP = "SELECT * FROM lanc_tipos ORDER BY id_lanc_tipo ASC;";
+$result_LANC_TIP  = mysqli_query($connect, $sql_LANC_TIP);
 
+while ($row_LANC_TIP  = mysqli_fetch_assoc($result_LANC_TIP )) {
+
+	$DESCR_L_T[] = $row_LANC_TIP ['descricao'];
+}
+?>
 	<script type="text/javascript">
       google.charts.load('current', {'packages':['bar']});
       google.charts.setOnLoadCallback(drawChart);
@@ -10,7 +18,7 @@
       function drawChart() {
         var data = google.visualization.arrayToDataTable([
 
-          ['ANO <? echo "$TO_A";?>', 'Entradas', 'Saidas'],
+          ['ANO <? echo "$TO_A";?>', '<? echo $DESCR_L_T[0];?>s', '<? echo $DESCR_L_T[1];?>s'],
 
 <? 
 for ($x = 1; $x <= 12; $x++) {
@@ -21,8 +29,7 @@ $result_LANC_TIP  = mysqli_query($connect, $sql_LANC_TIP);
 
 while ($row_LANC_TIP  = mysqli_fetch_assoc($result_LANC_TIP )) {
 
-	$ID_L_T    = $row_LANC_TIP ['id_lanc_tipo'];
-	$DESCR_L_T = $row_LANC_TIP ['descricao'];
+	$ID_L_T      = $row_LANC_TIP ['id_lanc_tipo'];
 
 $sql_LANC_SOMA = "SELECT id_empresa, SUM(valor) as SOMA FROM lancamentos WHERE id_empresa='$S_EMP_ID' AND id_lanc_tipo='$ID_L_T' AND YEAR(data) = '$TO_A' AND MONTH(data) = '$x';";
 
@@ -60,7 +67,7 @@ $V_T_SOMA_S = $V_SOMA[1];
         var options = {
           chart: {
             title: 'Performance Mensal da Empresa',
-            subtitle: 'Entradas, Saidas',
+            subtitle: '<? echo $DESCR_L_T[0];?>s, <? echo $DESCR_L_T[1];?>s',
           }
         };
 
@@ -95,7 +102,7 @@ $V_T_SOMA_S = $V_SOMA[1];
 						<div class="col-md-12">
 							<div class="shadow card mb-12">
 								<div class="card-header">
-									<h5>ENTRADAS e SAIDAS de <? echo "$TO_A";?>:</h5>
+									<h5 class="text-uppercase"><? echo $DESCR_L_T[0];?>s e <? echo $DESCR_L_T[1];?>s <? echo "$TO_A";?>:</h5>
 								</div>
 							
 								<div class="card-body">

@@ -40,7 +40,7 @@ $(document).ready(function(){
 				  <thead>
 					<tr class="bg-primary text-white">
 					  <th scope="col">ID</th>
-					  <th scope="col">DESCRIÇÂO</th>
+					  <th scope="col">DESCRIÇÃO</th>
 					  <th scope="col">AÇÕES</th>
 					</tr>
 				  </thead>
@@ -48,7 +48,7 @@ $(document).ready(function(){
 				  <tbody>
 
 <?
-$sql_TIP = "SELECT * FROM lanc_tipos ORDER BY descricao ASC;";
+$sql_TIP = "SELECT * FROM lanc_tipos ORDER BY id_lanc_tipo ASC;";
 //echo "$sql_TIP";
 $result_TIP  = mysqli_query($connect, $sql_TIP);
 
@@ -68,13 +68,13 @@ if ( $VW_TIP_ID=="$TIP_ID" ) { $BG_TR_L="bg-info text-white"; } else { $BG_TR_L=
 					<tr class="<? echo "$BG_TR_L";?>">
 					  <th scope="row"><? echo "$VW_TIP_ID";?></th>
 					  <td><? echo "$VW_TIP_DESCR";?></td>
-					  <td class="align-right" style="width:115px;">
+					  <td class="align-right" style="width:90px;">
 					  
 						<div class="float-left">
 							<!-- Button trigger modal -->
-							<a class="btn btn-sm btn-primary text-white" data-toggle="modal" data-target="#Modal_<? echo "$VW_TIP_ID";?>">
-								<i class="fa fa-fw fa-edit"></i>
-							</a>
+							<button class="btn btn-sm btn-primary btn-link text-white" data-toggle="modal" data-target="#Modal_<? echo "$VW_TIP_ID";?>">
+								<i class="fa fa-fw fa-pencil" data-toggle="tooltip" data-placement="top" title="EDITAR"></i>
+							</button>
 						</div>
 						
 						<div class="float-right" style="width:10px;">&nbsp;</div>
@@ -85,8 +85,8 @@ if ( $VW_TIP_ID=="$TIP_ID" ) { $BG_TR_L="bg-info text-white"; } else { $BG_TR_L=
 							
 								<input type="hidden" name="TIP_ID" value="<? echo "$VW_TIP_ID";?>" />
 								
-								<button type="submit" class="btn btn-sm btn-danger" name ="DELETAR">
-									<i class="fa fa-fw fa-trash"></i>
+								<button type="submit" class="btn btn-sm btn-danger btn-link text-white" name ="DELETAR">
+									<i class="fa fa-fw fa-trash" data-toggle="tooltip" data-placement="top" title="DELETAR"></i>
 								</button>
 								
 							</form>

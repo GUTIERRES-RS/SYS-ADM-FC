@@ -50,10 +50,24 @@ while ($row_EMP  = mysqli_fetch_assoc($result_EMP )) {
 		  </a>
 		</li>	
 		
+		<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Agendamentos">
+		  <a class="nav-link" href="?pag=painel&sec=index&vp=agendamentos">
+			<i class="fa fa-fw fa-book"></i>
+			<span class="nav-link-text">Agendamentos</span>
+		  </a>
+		</li>
+		
 		<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Grupos">
 		  <a class="nav-link" href="?pag=painel&sec=index&vp=grupos">
 		  <i class="fa fa-fw fa-indent"></i>
 			<span class="nav-link-text">Grupos</span>
+		  </a>
+		</li>
+
+		<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Sub Grupos">
+		  <a class="nav-link" href="?pag=painel&sec=index&vp=grupos_sub">
+		  <i class="fa fa-fw fa-outdent"></i>
+			<span class="nav-link-text">Sub Grupos</span>
 		  </a>
 		</li>
 
@@ -92,10 +106,10 @@ while ($row_EMP  = mysqli_fetch_assoc($result_EMP )) {
         </li>
 <?}?>
 
-		<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Suporte Via WhatsApp">
-          <a class="nav-link" target="_blank" href="https://web.whatsapp.com/send?phone=5551984602116&text=&source=&data=">
-            <i class="fa fa-fw fa-whatsapp"></i>
-            <span class="nav-link-text">Suporte Via WhatsApp</span>
+		<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Suporte">
+          <a class="nav-link" href="?pag=painel&sec=index&vp=suporte">
+            <i class="fa fa-fw fa-question-circle"></i>
+            <span class="nav-link-text">Suporte</span>
           </a>
         </li>
 

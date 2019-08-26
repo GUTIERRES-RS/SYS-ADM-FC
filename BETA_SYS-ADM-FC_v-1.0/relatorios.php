@@ -10,7 +10,7 @@
 		<li class="breadcrumb-item active">Relatórios</li>
 		</ol>
 
-		<div class="row overflow-auto">
+		<div class="row">
 			<div class="col-12">
 <!--Ajuda alerta hide show-->
 <script>
@@ -33,8 +33,13 @@ $(document).ready(function(){
 // Aqui vai o recebimento das opções e tratamento primario para geração dos relatorios
 include ('relatorios_options.php');
 ?>
+			</div>
+		</div>
 
-				<table class="table table-striped">
+		<div class="row overflow-auto">
+			<div class="col-12">
+
+				<table class="table table-striped text-nowrap">
 				  <thead>
 					<tr class="bg-primary text-white">
 					  <th scope="col">ID</th>

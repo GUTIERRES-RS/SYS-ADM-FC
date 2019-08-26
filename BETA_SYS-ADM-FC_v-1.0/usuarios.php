@@ -22,16 +22,21 @@
 					</a>
 				</p>
 <?}?>
-				<table class="table table-striped">
+			</div>
+		</div>
+
+		<div class="row overflow-auto">
+			<div class="col-12">
+				<table class="table table-striped text-nowrap">
 				  <thead>
 					<tr class="bg-primary text-white">
 					  <th scope="col">ID</th>
 					  <th scope="col">EMPRESA</th>
-					  <th scope="col">Nome</th>
-					  <th scope="col">Login</th>
-					  <th scope="col">Nivel</th>
-					  <th scope="col">Status</th>
-					  <th scope="col">Ação</th>
+					  <th scope="col">NOME</th>
+					  <th scope="col">LOGIN</th>
+					  <th scope="col">NIVEL</th>
+					  <th scope="col">STATUS</th>
+					  <th scope="col" class="text-right">AÇÕES</th>
 					</tr>
 				  </thead>
 
@@ -83,18 +88,17 @@ while ($row_EMP  = mysqli_fetch_assoc($result_EMP )) {
 					  <td><? echo "$view_USUARIO";?></td>
 					  <td><? if ($view_NIVEL=='1') {echo "WebMaster";} if ($view_NIVEL=='2') {echo "Administrador";} if ($view_NIVEL=='3') {echo "Usuario";}?></td>
 					  <td><? if ($view_STATUS=='0') { echo "<spam class='badge badge-danger'>DESATIVADO</span>"; } else { echo "<spam class='badge badge-success'>ATIVO</span>"; } ?></td>
-					  <td class="align-right" <?if ($_SESSION['usuario_usr_p_Nivel']=='3') {echo 'style="width:115px;"';} else {echo 'style="width:162px;"';}?>>
+					  <td class="text-right" style="width:10%;">
 					  
-						<div class="float-left">
+						<div class="d-inline-block">
 							<!-- Button trigger modal -->
-							<a class="btn btn-sm btn-primary text-white" data-toggle="modal" data-target="#Modal_<? echo "$view_P_ID";?>">
-								<i class="fa fa-fw fa-edit"></i>
-							</a>
+							<button class="btn btn-sm btn-primary btn-link text-white" data-toggle="modal" data-target="#Modal_<? echo "$view_P_ID";?>">
+								<i class="fa fa-fw fa-pencil" data-toggle="tooltip" data-placement="top" title="EDITAR"></i>
+							</button>
 						</div>
-						
-						<div class="float-left" style="width:10px;">&nbsp;</div>
+
 <? if ($_SESSION['usuario_usr_p_Nivel']=='1' || $_SESSION['usuario_usr_p_Nivel']=='2') {?>			
-						<div class="float-left">
+						<div class="d-inline-block">
 							<!-- Button trigger modal -->
 							<form action="?pag=painel&sec=index&vp=usuarios" method="post" enctype="multipart/form-data">
 							
@@ -102,30 +106,29 @@ while ($row_EMP  = mysqli_fetch_assoc($result_EMP )) {
 <? if ($view_STATUS=='0') { ?>
 								<input type="hidden" name="ativo" value="1" />
 								
-								<button type="submit" class="btn btn-sm btn-success" name="ATIVAR">
-									<i class="fa fa-fw fa-check-circle-o"></i>
+								<button type="submit" class="btn btn-sm btn-success btn-link text-white" name="ATIVAR">
+									<i class="fa fa-fw fa-check-circle-o" data-toggle="tooltip" data-placement="top" title="ATIVAR"></i>
 								</button>
 <? } else { ?>
 								<input type="hidden" name="ativo" value="0" />
 								
-								<button type="submit" class="btn btn-sm btn-danger" name="ATIVAR">
-									<i class="fa fa-fw fa-ban"></i>
+								<button type="submit" class="btn btn-sm btn-danger btn-link text-white" name="ATIVAR">
+									<i class="fa fa-fw fa-ban" data-toggle="tooltip" data-placement="top" title="DESATIVAR"></i>
 								</button>
 <? } ?>							
 							</form>
 						</div>
-						
-						<div class="float-right" style="width:10px;">&nbsp;</div>
+
 <? if ($view_P_ID==$_SESSION['usuario_usr_p_ID'] || $_SESSION['usuario_usr_p_Nivel']=='3') {} else {?>						
-						<div class="float-right">
+						<div class="d-inline-block">
 							<!-- Button trigger modal -->
 							<form action="?pag=painel&sec=index&vp=usuarios" method="post" enctype="multipart/form-data">
 							
 								<input type="hidden" name="p_id" value="<? echo "$view_P_ID";?>" />
 								<input type="hidden" name="nome" value="<? echo "$view_NOME";?>" />
 								
-								<button type="submit" class="btn btn-sm btn-danger" name="DELETAR">
-									<i class="fa fa-fw fa-trash"></i>
+								<button type="submit" class="btn btn-sm btn-danger btn-link text-white" name="DELETAR">
+									<i class="fa fa-fw fa-trash" data-toggle="tooltip" data-placement="top" title="DELETAR"></i>
 								</button>
 								
 							</form>

@@ -117,7 +117,7 @@ $('#LANC_TIPO').selectpicker('val', '0');
 						<div class="input-group-prepend">
 							<label class="input-group-text" for="LANC_GRUPO">GRUPO</label>
 						</div>
-						<select name="LANC_GRUPO[]" class="form-control selectpicker" id="LANC_GRUPO" data-max-options="0" data-live-search="true" data-style="custom-select" data-width="75%" multiple>
+						<select id="LANC_GRUPO" name="LANC_GRUPO[]" class="form-control selectpicker" data-max-options="0" data-live-search="true" data-style="custom-select" data-width="75%" multiple>
 
 							<option value="0" data-tokens="TODOS">TODOS</option>
 <?							
@@ -146,7 +146,7 @@ while ($row_OP_LANC_GRP  = mysqli_fetch_assoc($result_OP_LANC_GRP )) {
 						<div class="input-group-prepend">
 							<label class="input-group-text" for="LANC_TIPO">TIPO</label>
 						</div>
-						<select name="LANC_TIPO" class="form-control selectpicker" id="LANC_TIPO" data-max-options="1" data-style="custom-select" data-width="75%" multiple>
+						<select id="LANC_TIPO" name="LANC_TIPO" class="form-control selectpicker" data-max-options="1" data-style="custom-select" data-width="75%" multiple>
 
 							<option value="0">TODOS</option>
 <?

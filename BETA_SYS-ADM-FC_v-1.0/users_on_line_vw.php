@@ -14,8 +14,13 @@
 			<div class="col-12">
 
 				<h3><span class="text-warning">Usuarios On-Line</span> <small  class="text-muted" style="font-size:16px;"> Visualização dos usuarios on-line.</small></h3>
+			</div>
+		</div>
 
-				<table class="table table-striped">
+		<div class="row overflow-auto">
+			<div class="col-12">
+
+				<table class="table table-striped text-nowrap">
 
 				  <thead>
 
@@ -26,7 +31,7 @@
 					  <th scope="col">IP</th>
 					  <th scope="col">ULT. ATIVIDADE</th>
 					  <th scope="col">ATIVO</th>
-					  <th scope="col">AÇÕES</th>
+					  <th scope="col" class="text-right">AÇÕES</th>
 					</tr>
 
 				  </thead>
@@ -95,13 +100,13 @@ while ($row_EMP  = mysqli_fetch_assoc($result_EMP )) {
 if ($VW_USR_ON_ATIVO=='1') {$ATIVO="<spam class='badge badge-success'>On-Line</spam>";} else {$ATIVO="<spam class='badge badge-danger'>Off-Line</spam>";}
 ?>
 					  <td><? echo "$ATIVO";?></td>
-					  <td class="align-right" style="width:115px;">
+					  <td class="text-right" style="width:10%;">
 
-						<div class="float-left">
+						<div class="d-inline-block">
 							<!-- Button trigger modal -->
-							<a class="btn btn-sm btn-primary text-white">
-								<i class="fa fa-fw fa-search-plus"></i>
-							</a>
+							<button class="btn btn-sm btn-primary btn-link text-white">
+								<i class="fa fa-fw fa-search-plus" data-toggle="tooltip" data-placement="top" title="DETALHES"></i>
+							</button>
 						</div>
 
 					  </td>

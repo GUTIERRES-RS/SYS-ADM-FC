@@ -97,7 +97,7 @@ if (file_exists("$pag.php")){
 
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin.min.js"></script>
-
+	
 	<!-- Latest compiled and minified JavaScript -->
 	<script type="text/javascript" src="vendor/bootstrap-select-1.13.9/dist/js/bootstrap-select.min.js"></script>
 
@@ -107,6 +107,7 @@ if (file_exists("$pag.php")){
   </div>
   <!-- /.content-wrapper-->
   <!--script src="js/custom-file-input.js"></script-->
+
 </body>
 
 </html>

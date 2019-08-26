@@ -10,7 +10,7 @@
 		<li class="breadcrumb-item active">Lançamentos</li>
 		</ol>
 
-		<div class="row overflow-auto">
+		<div class="row">
 			<div class="col-12">
 <!--Ajuda alerta hide show-->
 <script>
@@ -26,183 +26,18 @@ $(document).ready(function(){
 					<strong>Informação:</strong>	Para inserir ou editar lançamentos e necessario que todos os campos sejam preenchidos.<br />
 					No campo DATA a mesma deve estar completa Ex: "dd/mm/aaaa"
 				</div>
+
 <?
-if(isset($_POST['INSERT_LANC_GRUPO'])) {
-
-	$LANC_GRP_ID_DESCR = $_POST['LANC_GRP_ID_DESCR'];
-	
-	$X_L_G_I_D = explode("|", $LANC_GRP_ID_DESCR);
-	$LANC_GRP_ID = $X_L_G_I_D[0];
-	$LANC_GRP_DESCR = $X_L_G_I_D[1];
-
-	$LANC_DATA   = $_POST['LANC_DATA'];
-	//echo "$LANC_DATA";
-	
-	$COUNT_CRT = strlen($LANC_DATA); // Conta a quantidade de caracteres.
-	
-	//Formata a Data para consulta SQL separando DD/MM/AAAA
-	$DATA_W = explode("/", $LANC_DATA);
-	$D_X_A = $DATA_W[0];
-	$D_X_B = $DATA_W[1];
-	$D_X_C = $DATA_W[2];
-
-// Filtra o POST pra verificar se os parametros necessarios estão sendo enviados corretamente.
-if ( $LANC_GRP_ID_DESCR=='' | $LANC_GRP_ID_DESCR=='0' | $LANC_DATA=='' | $D_X_A=='00' | $D_X_B=='00' | $D_X_C=='0000' | $COUNT_CRT!='10' ) {
-
+// Aqui vai o recebimento das opções e tratamento primario para geração dos relatorios
+include ('lancamentos_options.php');
 ?>
-				<div class="alert alert-warning alert-dismissible" role="alert">
-					<strong>Aviso:</strong>	Para inserir ou editar lançamentos e necessario que todos os campos sejam preenchidos.<br />
-					No campo DATA a mesma deve estar completa Ex: "dd/mm/aaaa" e no campo Grupo pelo menos um deve ser selecionado.
-					<? echo "$COUNT_CRT";?>
-				</div>
-<?
+			</div>
+		</div>
 
-} else {
+		<div class="row overflow-auto">
+			<div class="col-12">
 
-?>
-<? include ('lancamentos_modal_insert.php'); ?>
-<script type="text/javascript">
-	$(document).ready(function() {
-        $('#Modal_INSERT').modal('show');
-    });
-</script>
-<?
-}
-?>
-				<form action="?pag=painel&sec=index&vp=lancamentos" method="post" enctype="multipart/form-data">
-	
-					<div class="input-group mb-3">
-						<div class="input-group-prepend">
-							<span class="input-group-text" for="inputGroupSelect_DATA">DATA</span>
-						</div>
-						<input type="text" name="LANC_DATA" value="<? echo "$LANC_DATA";?>" id="inputGroupSelect_DATA" class="form-control" aria-label="Titulo" aria-describedby="button-addon1" placeholder="00/00/0000" />
-					</div>
-					<div class="input-group mb-3">
-						<div class="input-group-prepend">
-							<span class="input-group-text">GRUPO</span>
-						</div>
-
-						<select name="LANC_GRP_ID_DESCR" class="form-control selectpicker" data-max-options="1" data-live-search="true" data-style="custom-select" data-width="75%" multiple>
-
-<?							
-$sql_GRP = "SELECT * FROM lanc_grupos WHERE id_empresa='$S_EMP_ID' ORDER BY descricao ASC;";
-//echo "$sql_GRP";
-$result_GRP  = mysqli_query($connect, $sql_GRP);
-
-while ($row_GRP  = mysqli_fetch_assoc($result_GRP )) {
-
-	$VW_GRP_ID    = $row_GRP ['id_lanc_grupo'];
-	$VW_GRP_E_ID  = $row_GRP ['id_empresa'];
-	$VW_GRP_DESCR = $row_GRP ['descricao'];
-	$VW_GRP_ATIVO = $row_GRP ['ativo'];
-	
-if ($LANC_GRP_ID==$VW_GRP_ID) {
-
-?>
-							<option value="<? echo "$VW_GRP_ID";?>|<? echo "$VW_GRP_DESCR";?>" selected><? echo "$VW_GRP_DESCR";?></option>
-<?
-} else {
-
-?>
-							<option value="<? echo "$VW_GRP_ID";?>|<? echo "$VW_GRP_DESCR";?>"><? echo "$VW_GRP_DESCR";?></option>
-<?
-
-}
-
-}
-?>
-
-						</select>
-						<div class="input-group-append">
-							<button type="submit" class="btn btn-sm btn-success" name="INSERT_LANC_GRUPO">
-								<i class="fa fa-fw fa-plus"></i>Inserir novo item
-							</button>
-						</div>
-					</div>
-
-				</form>
-<?
-} else {
-//-----------------------------------------------------
-if ( isset($_POST['INSERT']) || isset($_POST['ALTERAR']) || isset($_POST['DELETAR']) ) {
-//Formata a Data para consulta SQL separando DD/MM/AAAA
-$LANC_DATA   = $_POST['LANC_DATA'];
-$LANC_GRP_ID = $_POST['LANC_GRP_ID'];
-} else {
-$LANC_DATA = "$TO_D/$TO_M/$TO_A"; //Hoje
-}
-
-// Passa o valor $_POST['LANC_ID'] e $_POST['LANC_DATA'] para o "select grupo" e "imput date" manter o id do grupo e data de inserção.
-if(isset($_POST['LANC_EDIT'])) {
-
-$LANC_DATA   = $_POST['LANC_DATA'];
-$LANC_GRP_ID = $_POST['LANC_GRP_ID'];
-
-}
-
-$DATA_W = explode("/", $LANC_DATA);
-$D_X_A = $DATA_W[0];
-$D_X_B = $DATA_W[1];
-$D_X_C = $DATA_W[2];
-
-?>
-				<form action="?pag=painel&sec=index&vp=lancamentos" method="post" enctype="multipart/form-data">
-
-					<div class="input-group mb-3">
-						<div class="input-group-prepend">
-							<span class="input-group-text" for="inputGroupSelect_DATA">DATA</span>
-						</div>
-						<input type="text" name="LANC_DATA" value="<? echo "$LANC_DATA";?>" id="inputGroupSelect_DATA" class="form-control" aria-label="Titulo" aria-describedby="button-addon1" placeholder="00/00/0000" />
-					</div>
-					<div class="input-group mb-3">
-						<div class="input-group-prepend">
-							<span class="input-group-text">GRUPO</span>
-						</div>
-
-						<select name="LANC_GRP_ID_DESCR" class="form-control selectpicker" data-max-options="1" data-live-search="true" data-style="custom-select" data-width="75%" multiple>
-
-<?							
-$sql_GRP = "SELECT * FROM lanc_grupos WHERE id_empresa='$S_EMP_ID' ORDER BY descricao ASC;";
-//echo "$sql_GRP";
-$result_GRP  = mysqli_query($connect, $sql_GRP);
-
-while ($row_GRP  = mysqli_fetch_assoc($result_GRP )) {
-
-	$VW_GRP_ID    = $row_GRP ['id_lanc_grupo'];
-	$VW_GRP_E_ID  = $row_GRP ['id_empresa'];
-	$VW_GRP_DESCR = $row_GRP ['descricao'];
-	$VW_GRP_ATIVO = $row_GRP ['ativo'];
-
-if ($LANC_GRP_ID==$VW_GRP_ID) {
-
-?>
-							<option value="<? echo "$VW_GRP_ID";?>|<? echo "$VW_GRP_DESCR";?>" selected><? echo "$VW_GRP_DESCR";?></option>
-<?
-} else {
-
-?>
-							<option value="<? echo "$VW_GRP_ID";?>|<? echo "$VW_GRP_DESCR";?>"><? echo "$VW_GRP_DESCR";?></option>
-<?
-
-}
-
-}
-?>
-
-						</select>
-						<div class="input-group-append">
-							<button type="submit" class="btn btn-sm btn-success" name="INSERT_LANC_GRUPO">
-								<i class="fa fa-fw fa-plus"></i>Inserir novo item
-							</button>
-						</div>
-					</div>
-
-				</form>
-<?
-
-}
-?>
-				<table class="table table-striped">
+				<table class="table table-striped text-nowrap">
 				  <thead>
 					<tr class="bg-primary text-white">
 					  <th scope="col">ID</th>
@@ -211,7 +46,7 @@ if ($LANC_GRP_ID==$VW_GRP_ID) {
 					  <th scope="col">OBSERVAÇÃO</th>
 					  <th scope="col">VALOR</th>
 					  <th scope="col">DATA</th>
-					  <th scope="col">AÇÕES</th>
+					  <th scope="col" class="text-right">AÇÕES</th>
 					</tr>
 				  </thead>
 
@@ -293,36 +128,36 @@ while ($row_LANC_TIP  = mysqli_fetch_assoc($result_LANC_TIP )) {
 					  <td><? echo "$VW_LANC_OBS";?></td>
 					  <td>R$ <? echo "$VW_LANC_VALOR";?></td>
 					  <td><? echo "$VW_LANC_DATA";?></td>
-					  <td class="align-right" style="width:115px;">
-					  
-						<div class="float-left">
+					  <td class="text-right" style="width:10%;">
+
+						<div class="d-inline-block">
 							<!-- Button trigger modal -->
 							<form action="?pag=painel&sec=index&vp=lancamentos" method="post" enctype="multipart/form-data">
 
 								<input type="hidden" name="LANC_EDIT" value="OK" />
-								<input type="hidden" name="LANC_GRP_ID" value="<? echo "$VW_L_GRP_ID";?>" />
+								<input type="hidden" name="LANC_GRP_ID" value="<? echo "".$VW_L_GRP_ID."|".$VW_L_GRP_DESCR."";?>" />
 
 								<input type="hidden" name="LANC_ID" value="<? echo "$VW_LANC_L_ID";?>" />
 								<input type="hidden" name="LANC_DATA" value="<? echo "$LANC_DATA";?>" />
 
-								<button type="submit" class="btn btn-sm btn-primary text-white" name="EDIT_LANC_<? echo "$VW_LANC_L_ID";?>">
-									<i class="fa fa-fw fa-edit"></i>
+								<button type="submit" class="btn btn-sm btn-primary btn-link text-white" name="EDIT_LANC_<? echo "$VW_LANC_L_ID";?>">
+									<i class="fa fa-fw fa-pencil" data-toggle="tooltip" data-placement="top" title="EDITAR"></i>
 								</button>
 
 							</form>
 						</div>
 						
-						<div class="float-right" style="width:10px;">&nbsp;</div>
-						
-						<div class="float-right">
+						<div class="d-inline-block">
 							<!-- Button trigger modal -->
 							<form action="?pag=painel&sec=index&vp=lancamentos" method="post" enctype="multipart/form-data">
 
 								<input type="hidden" name="LANC_ID" value="<? echo "$VW_LANC_L_ID";?>" />
 								<input type="hidden" name="LANC_DATA" value="<? echo "$LANC_DATA";?>" />
+								<input type="hidden" name="LANC_OBSERVACAO" value="<? echo "$VW_LANC_OBS";?>" />
+								<input type="hidden" name="LANC_VALOR" value="<? echo "$VW_LANC_VALOR";?>" />
 								
-								<button type="submit" class="btn btn-sm btn-danger" name ="DELETAR">
-									<i class="fa fa-fw fa-trash"></i>
+								<button type="submit" class="btn btn-sm btn-danger btn-link text-white" name ="DELETAR">
+									<i class="fa fa-fw fa-trash" data-toggle="tooltip" data-placement="top" title="DELETAR"></i>
 								</button>
 
 							</form>
@@ -333,7 +168,7 @@ while ($row_LANC_TIP  = mysqli_fetch_assoc($result_LANC_TIP )) {
 <?
 if(isset($_POST['EDIT_LANC_'."$VW_LANC_L_ID"])) {
 ?>
-					<tr style="">
+					<tr>
 					  <td colspan="7">
 					  <span class="badge badge-warning">EDITANDO ID.:</span> <span class="badge badge-warning"><? echo"$VW_LANC_L_ID";?></span>
 <script type="text/javascript">
@@ -372,12 +207,12 @@ while ($row_LANC_GRP  = mysqli_fetch_assoc($result_LANC_GRP )) {
 	$DESCR_L_G = $row_LANC_GRP ['descricao'];
 
 
-$sql_LANC_SOMA = "SELECT id_lanc_grupo, SUM(valor) as SOMA FROM lancamentos WHERE id_empresa='$S_EMP_ID' AND id_lanc_tipo='$ID_L_G' AND YEAR(data) = '$D_X_C' AND MONTH(data) = '$D_X_B' AND DAY(data) = '$D_X_A';";
+$sql_LANC_SOMA = "SELECT id_lanc_grupo, id_lanc_tipo, SUM(valor) as SOMA FROM lancamentos WHERE id_empresa='$S_EMP_ID' AND id_lanc_tipo='$ID_L_G' AND YEAR(data) = '$D_X_C' AND MONTH(data) = '$D_X_B' AND DAY(data) = '$D_X_A';";
 
     $result_LANC_SOMA = mysqli_query($connect, $sql_LANC_SOMA);
     while ($row_LANC_SOMA = mysqli_fetch_assoc($result_LANC_SOMA)) {
         
-		$VW_ID_GRP = $row_LANC_SOMA["id_lanc_tipo"];
+		$VW_ID_TIP = $row_LANC_SOMA["id_lanc_tipo"];
 		
 		$VW_TOTAL_BD  = $row_LANC_SOMA["SOMA"];
 		
@@ -399,8 +234,10 @@ if ($CONT_CARACT_CENT<"2") {$CONT_CARACT_CENT_T="2";} else {$CONT_CARACT_CENT_T=
 $VW_TOTAL = number_format($VW_TOTAL_BD, $CONT_CARACT_CENT_T, ',', '.');
 //echo "$VW_TOTAL";
 
+if ( $VW_ID_TIP=='1') { $TR_T_BG="alert-success"; } else { $TR_T_BG="alert-danger"; }
+
 ?>
-					<tr class="bg-secondary text-white">
+					<tr class="<? echo "$TR_T_BG"; ?>">
 					  <th scope="row" colspan="2"></th>
 					  <th scope="row" colspan="2">TOTAL de <? echo "$DESCR_L_G"; ?></th>
 					  <th scope="row">R$ <? echo "$VW_TOTAL"; ?></th>

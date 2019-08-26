@@ -63,7 +63,7 @@ if ($VW_LANC_L_G_ID==$VW_GRP_ID) {
 								  
 										<option value="<? echo "$VW_LANC_L_T_ID";?>" selected><? echo "$VW_L_TIP_DESCR";?></option>
 <?							
-$sql_OP_LANC_TIP = "SELECT * FROM lanc_tipos ORDER BY descricao ASC;";
+$sql_OP_LANC_TIP = "SELECT * FROM lanc_tipos ORDER BY id_lanc_tipo ASC;";
 $result_OP_LANC_TIP  = mysqli_query($connect, $sql_OP_LANC_TIP);
 
 while ($row_OP_LANC_TIP  = mysqli_fetch_assoc($result_OP_LANC_TIP )) {

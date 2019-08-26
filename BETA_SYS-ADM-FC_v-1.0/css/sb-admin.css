@@ -476,3 +476,9 @@ footer.sticky-footer {
     width: calc(100% - 55px);
   }
 }
+
+.btn-link {
+	padding: 0 2px 1.5px 2px;
+	margin: 0 0 0 0;
+	border-radius: 100%;
+}

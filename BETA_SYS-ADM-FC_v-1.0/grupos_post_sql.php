@@ -10,22 +10,39 @@ if(isset($_POST['INSERT']))
 	
 	$GRP_EMPRESA = "$S_EMP_ID"; //Pegar valor da Session
 	$GRP_ATIVO   = "1"; //Entra sempre como ativo
-      
-?>
-<div class="alert alert-success alert-dismissible" role="alert">
-<?
+
 	//SQL Alterar informações para o BD.
 	$query = "INSERT INTO lanc_grupos (id_lanc_grupo, id_empresa, descricao, ativo) VALUES ('$GRP_ID','$GRP_EMPRESA','$GRP_DESCR','$GRP_ATIVO');";
 	//echo "$query<BR>";
 
-  	mysqli_query($connect, $query);// envia a query
+// INI TOSATS ALERTA
 
-?>
-	<strong>Sucesso:</strong> Grupo Inserido!
-	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  	$result1 = mysqli_query($connect, $query, MYSQLI_USE_RESULT);// envia a query
+	$result2 = mysqli_affected_rows($connect);
+	$result3 = mysqli_error($connect);
 
-</div>
-<?
+	//DEBUG
+	//print_r("R1: $result1<br />");
+	//print_r("R2: $result2<br />");
+	//printf ("R3: $result3");
+
+	$R1 = "<strong>R1:</strong> $result1<br />";
+	$R2 = "<strong>R2:</strong> $result2<br />";
+	$R3 = "<strong>R3:</strong> $result3<br />";
+	$R4 = "<strong>R4:</strong> $query";
+	
+
+if ( $result2=='0' | $result2=='1' ) {
+	$ALERT = "OK_INSERT";
+	$INFO  = '<strong>NOVO GRUPO</strong><br /><strong>DESCRIÇÃO:</strong> '.$GRP_DESCR.'';
+} else {
+	$ALERT = "NO_INSERT";
+	$INFO  = "<br />$R1 $R2 $R3 $R4";
+}
+
+include ('alert_toasts.php');
+
+// FIM TOSATS ALERTA
 }
 ?>
 
@@ -42,21 +59,38 @@ if(isset($_POST['ALTERAR']))
 	$GRP_DESCR = $_POST['GRP_DESCR'];
 
 	$GRP_ATIVO   = "1"; //Entra sempre como ativo
-     
-?>
-<div class="alert alert-success alert-dismissible" role="alert">
-<?
+
 	//SQL Alterar informações para o BD.
 	$query = "UPDATE lanc_grupos SET descricao='$GRP_DESCR' WHERE id_lanc_grupo='$GRP_ID';";
 
-  	mysqli_query($connect, $query);// envia a query
-	//echo "$query<BR>";
-?>
+// INI TOSATS ALERTA
 
-	<strong>Sucesso:</strong> Grupo <span class="text-danger">"ID: <? echo "$GRP_ID";?>"</span> atualizado!
-	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-</div>
-<?
+  	$result1 = mysqli_query($connect, $query, MYSQLI_USE_RESULT);// envia a query
+	$result2 = mysqli_affected_rows($connect);
+	$result3 = mysqli_error($connect);
+
+	//DEBUG
+	//print_r("R1: $result1<br />");
+	//print_r("R2: $result2<br />");
+	//printf ("R3: $result3");
+
+	$R1 = "<strong>R1:</strong> $result1<br />";
+	$R2 = "<strong>R2:</strong> $result2<br />";
+	$R3 = "<strong>R3:</strong> $result3<br />";
+	$R4 = "<strong>R4:</strong> $query";
+	
+
+if ( $result2=='0' | $result2=='1' ) {
+	$ALERT = "OK_ALTER";
+	$INFO  = '<strong>GRUPO ID:</strong> '.$GRP_ID.'<br /><strong>DESCRIÇÃO:</strong> '.$GRP_DESCR.'';
+} else {
+	$ALERT = "NO_ALTER";
+	$INFO  = "<br />$R1 $R2 $R3 $R4";
+}
+
+include ('alert_toasts.php');
+
+// FIM TOSATS ALERTA
 }
 ?>
 
@@ -70,18 +104,39 @@ if(isset($_POST['DELETAR']))
 {
 
 	$GRP_ID    = $_POST['GRP_ID'];
+	$GRP_DESCR = $_POST['GRP_DESCR'];
 
 	//SQL deleta informação do BD.
 	$query = "DELETE FROM lanc_grupos WHERE id_lanc_grupo = '$GRP_ID';";
 
-  	mysqli_query($connect, $query);// envia a query
-	//echo "$query<BR>";
-?>	
-	<div class="alert alert-success alert-dismissible" role="alert">
-		<strong>Sucesso:</strong> Grupo <span class="text-danger">"ID: <? echo "$GRP_ID";?>"</span> apagado!
-	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	</div>
-<?
+// INI TOSATS ALERTA
+
+  	$result1 = mysqli_query($connect, $query, MYSQLI_USE_RESULT);// envia a query
+	$result2 = mysqli_affected_rows($connect);
+	$result3 = mysqli_error($connect);
+
+	//DEBUG
+	//print_r("R1: $result1<br />");
+	//print_r("R2: $result2<br />");
+	//printf ("R3: $result3");
+
+	$R1 = "<strong>R1:</strong> $result1<br />";
+	$R2 = "<strong>R2:</strong> $result2<br />";
+	$R3 = "<strong>R3:</strong> $result3<br />";
+	$R4 = "<strong>R4:</strong> $query";
+	
+
+if ( $result2=='0' | $result2=='1' ) {
+	$ALERT = "OK_DELET";
+	$INFO  = '<strong>GRUPO ID:</strong> '.$GRP_ID.'<br /><strong>DESCRIÇÃO:</strong> '.$GRP_DESCR.'';
+} else {
+	$ALERT = "NO_DELET";
+	$INFO  = "<br />$R1 $R2 $R3 $R4";
+}
+
+include ('alert_toasts.php');
+
+// FIM TOSATS ALERTA
 }
 ?>
 

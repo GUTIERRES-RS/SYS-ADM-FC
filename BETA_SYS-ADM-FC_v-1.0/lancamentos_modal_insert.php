@@ -26,7 +26,7 @@
 								  <select name="LANC_TIP_ID" class="custom-select" id="inputGroupSelect_LANC_TIPO">
 
 <?
-$sql_TIP = "SELECT * FROM lanc_tipos ORDER BY descricao ASC;";
+$sql_TIP = "SELECT * FROM lanc_tipos ORDER BY id_lanc_tipo ASC;";
 //echo "$sql_TIP";
 $result_TIP  = mysqli_query($connect, $sql_TIP);
 
