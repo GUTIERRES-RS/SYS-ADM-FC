@@ -32,8 +32,8 @@
 								<div class="card-body">
 								
 									<h6>Formas de Contato:</h6>
-									<h5><strong>Telefone:</strong> <span class="badge badge-info">051 98460-2116</span></h5>
-									<h5><strong>WhatsApp:</strong> <a class="text-decoration-none text-success" href="https://web.whatsapp.com/send?phone=5551984602116&text=&source=&data="><span class="badge badge-success"><i class="fa fa-fw fa-whatsapp"></i> 51 98460-2116</span></a></h5>
+									<h5><strong>Telefone:</strong> <span class="badge badge-info">000 90000-0000</span></h5>
+									<h5><strong>WhatsApp:</strong> <a class="text-decoration-none text-success" href="https://web.whatsapp.com/send?phone=5500900000000&text=&source=&data="><span class="badge badge-success"><i class="fa fa-fw fa-whatsapp"></i> 00 90000-0000</span></a></h5>
 								</div>
 								
 							</div>
