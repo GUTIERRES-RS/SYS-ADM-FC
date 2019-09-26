@@ -27,7 +27,7 @@
 
 		<div class="row overflow-auto">
 			<div class="col-12">
-				<table class="table table-striped text-nowrap">
+				<table class="table table-striped text-nowrap table-sm">
 				  <thead>
 					<tr class="bg-primary text-white">
 					  <th scope="col">ID</th>
@@ -36,44 +36,46 @@
 					  <th scope="col">LOGIN</th>
 					  <th scope="col">NIVEL</th>
 					  <th scope="col">STATUS</th>
-					  <th scope="col" class="text-right">AÇÕES</th>
+					  <th scope="col" class="text-center" style="width:30px;">AÇÕES</th>
 					</tr>
 				  </thead>
 
 				  <tbody>
 <?
  if ($_SESSION['usuario_usr_p_Nivel']=='1') { // Nivel 1 WebMaster
-$sql_PAGE_USER = "SELECT * FROM users_painel ORDER BY id_empresa ASC;";
+$sql_USR = "SELECT * FROM users_painel ORDER BY id_empresa ASC;";
 }
 
  if ($_SESSION['usuario_usr_p_Nivel']=='2') { // Nivel 2 Administrador
-$sql_PAGE_USER = "SELECT * FROM users_painel WHERE id_empresa='$S_EMP_ID' ORDER BY id DESC;";
+$sql_USR = "SELECT * FROM users_painel WHERE id_empresa='$S_EMP_ID' ORDER BY id DESC;";
 }
 
  if ($_SESSION['usuario_usr_p_Nivel']=='3') { // Nivel 3 Usuario
 $ID_USER = $_SESSION['usuario_usr_p_ID'];
-$sql_PAGE_USER = "SELECT * FROM users_painel WHERE id='$ID_USER';";
+$sql_USR = "SELECT * FROM users_painel WHERE id='$ID_USER';";
 }
 
-$result_PAGE_USER  = mysqli_query($connect, $sql_PAGE_USER);
+$result_USR  = mysqli_query($CONNECT_PRIMARY, $sql_USR);
 
-while ($row_PAGE_USER  = mysqli_fetch_assoc($result_PAGE_USER )) {
+while ($row_USR  = mysqli_fetch_assoc($result_USR )) {
 
-	$view_P_ID     = $row_PAGE_USER ['id'];
-	$view_ID_EMP   = $row_PAGE_USER ['id_empresa'];
-	$view_NOME     = $row_PAGE_USER ['nome'];
-	$view_USUARIO  = $row_PAGE_USER ['usuario'];
-	$view_SENHA    = $row_PAGE_USER ['senha'];
-	$view_STATUS   = $row_PAGE_USER ['ativo'];
-	$view_NIVEL    = $row_PAGE_USER ['nivel'];
+	$VW_USR_ID      = $row_USR ['id'];
+	$VW_USR_EMP_ID  = $row_USR ['id_empresa'];
+	$VW_USR_NOME    = $row_USR ['nome'];
+	$VW_USR_USUARIO = $row_USR ['usuario'];
+	$VW_USR_SENHA   = $row_USR ['senha'];
+	$VW_USR_STATUS  = $row_USR ['ativo'];
+	$VW_USR_NIVEL   = $row_USR ['nivel'];
 
+
+
+if ( $_POST['USR_ID']=="$VW_USR_ID" ) { $BG_EDIT="bg-warning"; } else { $BG_EDIT=""; }
 ?>
-
-					<tr>
-					  <th scope="row"><? echo "$view_P_ID";?></th>
+					<tr class="<?echo "$BG_EDIT";?>">
+					  <th scope="row"><? echo "$VW_USR_ID";?></th>
 <?
-$sql_EMP = "SELECT * FROM empresas WHERE id_empresa='$view_ID_EMP';";
-$result_EMP  = mysqli_query($connect, $sql_EMP);
+$sql_EMP = "SELECT * FROM empresas WHERE id_empresa='$VW_USR_EMP_ID';";
+$result_EMP  = mysqli_query($CONNECT_PRIMARY, $sql_EMP);
 
 while ($row_EMP  = mysqli_fetch_assoc($result_EMP )) {
 
@@ -84,51 +86,57 @@ while ($row_EMP  = mysqli_fetch_assoc($result_EMP )) {
 <?
 }
 ?>
-					  <td><? echo "$view_NOME";?></td>
-					  <td><? echo "$view_USUARIO";?></td>
-					  <td><? if ($view_NIVEL=='1') {echo "WebMaster";} if ($view_NIVEL=='2') {echo "Administrador";} if ($view_NIVEL=='3') {echo "Usuario";}?></td>
-					  <td><? if ($view_STATUS=='0') { echo "<spam class='badge badge-danger'>DESATIVADO</span>"; } else { echo "<spam class='badge badge-success'>ATIVO</span>"; } ?></td>
-					  <td class="text-right" style="width:10%;">
+					  <td><? echo "$VW_USR_NOME";?></td>
+					  <td><? echo "$VW_USR_USUARIO";?></td>
+					  <td><? if ($VW_USR_NIVEL=='1') {echo "WebMaster";} if ($VW_USR_NIVEL=='2') {echo "Administrador";} if ($VW_USR_NIVEL=='3') {echo "Usuario";}?></td>
+					  <td><? if ($VW_USR_STATUS=='0') { echo "<spam class='badge badge-danger'>DESATIVADO</span>"; } else { echo "<spam class='badge badge-success'>ATIVO</span>"; } ?></td>
+					  <td class="text-left">
 					  
 						<div class="d-inline-block">
-							<!-- Button trigger modal -->
-							<button class="btn btn-sm btn-primary btn-link text-white" data-toggle="modal" data-target="#Modal_<? echo "$view_P_ID";?>">
-								<i class="fa fa-fw fa-pencil" data-toggle="tooltip" data-placement="top" title="EDITAR"></i>
-							</button>
+							<form action="<?=$_SERVER['REQUEST_URI'];?>" method="post" enctype="multipart/form-data">
+
+								<input type="hidden" name="USR_ID" value="<? echo "$VW_USR_ID";?>" />
+								<!-- Button trigger modal -->
+								<button class="btn btn-sm btn-primary btn-link text-white" name="EDITAR_USR_<? echo "$VW_USR_ID";?>">
+									<i class="fa fa-fw fa-pencil" data-toggle="tooltip" data-placement="left" title="EDITAR"></i>
+								</button>
+
+							</form>
 						</div>
 
 <? if ($_SESSION['usuario_usr_p_Nivel']=='1' || $_SESSION['usuario_usr_p_Nivel']=='2') {?>			
 						<div class="d-inline-block">
 							<!-- Button trigger modal -->
-							<form action="?pag=painel&sec=index&vp=usuarios" method="post" enctype="multipart/form-data">
+							<form action="<?=$_SERVER['REQUEST_URI'];?>" method="post" enctype="multipart/form-data">
 							
-								<input type="hidden" name="p_id" value="<? echo "$view_P_ID";?>" />
-<? if ($view_STATUS=='0') { ?>
+								<input type="hidden" name="USR_ID" value="<? echo "$VW_USR_ID";?>" />
+								<input type="hidden" name="nome" value="<? echo "$VW_USR_NOME";?>" />
+<? if ($VW_USR_STATUS=='0') { ?>
 								<input type="hidden" name="ativo" value="1" />
 								
 								<button type="submit" class="btn btn-sm btn-success btn-link text-white" name="ATIVAR">
-									<i class="fa fa-fw fa-check-circle-o" data-toggle="tooltip" data-placement="top" title="ATIVAR"></i>
+									<i class="fa fa-fw fa-check-circle-o" data-toggle="tooltip" data-placement="left" title="ATIVAR"></i>
 								</button>
 <? } else { ?>
 								<input type="hidden" name="ativo" value="0" />
 								
 								<button type="submit" class="btn btn-sm btn-danger btn-link text-white" name="ATIVAR">
-									<i class="fa fa-fw fa-ban" data-toggle="tooltip" data-placement="top" title="DESATIVAR"></i>
+									<i class="fa fa-fw fa-ban" data-toggle="tooltip" data-placement="left" title="DESATIVAR"></i>
 								</button>
 <? } ?>							
 							</form>
 						</div>
 
-<? if ($view_P_ID==$_SESSION['usuario_usr_p_ID'] || $_SESSION['usuario_usr_p_Nivel']=='3') {} else {?>						
+<? if ($VW_USR_ID==$_SESSION['usuario_usr_p_ID'] || $_SESSION['usuario_usr_p_Nivel']=='3') {} else {?>						
 						<div class="d-inline-block">
 							<!-- Button trigger modal -->
-							<form action="?pag=painel&sec=index&vp=usuarios" method="post" enctype="multipart/form-data">
+							<form action="<?=$_SERVER['REQUEST_URI'];?>" method="post" enctype="multipart/form-data">
 							
-								<input type="hidden" name="p_id" value="<? echo "$view_P_ID";?>" />
-								<input type="hidden" name="nome" value="<? echo "$view_NOME";?>" />
+								<input type="hidden" name="USR_ID" value="<? echo "$VW_USR_ID";?>" />
+								<input type="hidden" name="nome" value="<? echo "$VW_USR_NOME";?>" />
 								
 								<button type="submit" class="btn btn-sm btn-danger btn-link text-white" name="DELETAR">
-									<i class="fa fa-fw fa-trash" data-toggle="tooltip" data-placement="top" title="DELETAR"></i>
+									<i class="fa fa-fw fa-trash" data-toggle="tooltip" data-placement="left" title="DELETAR"></i>
 								</button>
 								
 							</form>
@@ -137,9 +145,26 @@ while ($row_EMP  = mysqli_fetch_assoc($result_EMP )) {
 <?}?>
 					  </td>
 					</tr>
+<?
+if(isset($_POST['EDITAR_USR_'.$VW_USR_ID.''])) {
+?>
+					<tr>
+					  <th colspan="7">
+					  <span class="badge badge-secondary">EDITANDO ID.:</span> <span class="badge badge-warning"><? echo"$VW_USR_ID";?></span>
+<script type="text/javascript">
+	$(document).ready(function() {
+        $('#Modal_<? echo "$VW_USR_ID";?>').modal('show');
+    });
+</script>
 						<!-- Modal -->
 <? include ('usuarios_modal_update.php');?>
 						<!-- Modal -->
+					  </th>
+					</tr>
+<?
+}
+?>
+
 <?
 }
 ?>

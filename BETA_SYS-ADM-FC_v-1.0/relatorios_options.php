@@ -103,7 +103,7 @@ $('#LANC_TIPO').selectpicker('val', '0');
 
 //------------------------------------------------- INI OPTIONS 1 --------------------------------------------------------
 ?>
-				<form action="?pag=painel&sec=index&vp=relatorios" method="post" enctype="multipart/form-data">
+				<form action="<?=$_SERVER['REQUEST_URI'];?>" method="post" enctype="multipart/form-data">
 					
 					<div class="input-group mb-3">
 						<div class="input-group-prepend">
@@ -117,12 +117,12 @@ $('#LANC_TIPO').selectpicker('val', '0');
 						<div class="input-group-prepend">
 							<label class="input-group-text" for="LANC_GRUPO">GRUPO</label>
 						</div>
-						<select id="LANC_GRUPO" name="LANC_GRUPO[]" class="form-control selectpicker" data-max-options="0" data-live-search="true" data-style="custom-select" data-width="75%" multiple>
+						<select id="LANC_GRUPO" name="LANC_GRUPO[]" class="form-control selectpicker" data-max-options="0" data-live-search="true" data-style="custom-select" data-width="20%" multiple>
 
 							<option value="0" data-tokens="TODOS">TODOS</option>
 <?							
 $sql_OP_LANC_GRP = "SELECT * FROM lanc_grupos WHERE id_empresa='$S_EMP_ID' ORDER BY descricao ASC;";
-$result_OP_LANC_GRP  = mysqli_query($connect, $sql_OP_LANC_GRP);
+$result_OP_LANC_GRP  = mysqli_query($CONNECT_CLIENTE, $sql_OP_LANC_GRP);
 
 while ($row_OP_LANC_GRP  = mysqli_fetch_assoc($result_OP_LANC_GRP )) {
 
@@ -146,12 +146,12 @@ while ($row_OP_LANC_GRP  = mysqli_fetch_assoc($result_OP_LANC_GRP )) {
 						<div class="input-group-prepend">
 							<label class="input-group-text" for="LANC_TIPO">TIPO</label>
 						</div>
-						<select id="LANC_TIPO" name="LANC_TIPO" class="form-control selectpicker" data-max-options="1" data-style="custom-select" data-width="75%" multiple>
+						<select id="LANC_TIPO" name="LANC_TIPO" class="form-control selectpicker" data-max-options="1" data-style="custom-select" data-width="20%" multiple>
 
 							<option value="0">TODOS</option>
 <?
-$sql_OP_LANC_TIP = "SELECT * FROM lanc_tipos WHERE id_empresa='$S_EMP_ID' ORDER BY descricao ASC;";
-$result_OP_LANC_TIP  = mysqli_query($connect, $sql_OP_LANC_TIP);
+$sql_OP_LANC_TIP = "SELECT * FROM lanc_tipos ORDER BY descricao DESC;";
+$result_OP_LANC_TIP  = mysqli_query($CONNECT_PRIMARY, $sql_OP_LANC_TIP);
 
 while ($row_OP_LANC_TIP  = mysqli_fetch_assoc($result_OP_LANC_TIP )) {
 

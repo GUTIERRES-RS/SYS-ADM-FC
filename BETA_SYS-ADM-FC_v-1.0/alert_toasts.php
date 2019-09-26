@@ -1,6 +1,28 @@
 	<div aria-live="polite" aria-atomic="true" style="position:relative;">
 		<!-- Position it -->
-		<div style="position:fixed; width:400px; bottom:10px; right:10px; z-index:99999999;">
+		<div style="position:fixed; width:400px; bottom:10px; right:10px; z-index:1069;">
+
+<?
+// VERIFICA LANC
+if ( $ALERT=='VERIFICA_LANC' ) {
+?>
+			<div class="toast bg-warning" role="alert" aria-live="assertive" aria-atomic="true">
+			  <div class="toast-header">
+
+				<strong class="mr-auto"><span class="text-info">ATENÇÃO</span></strong>
+				<small>Não<strong> executada!</strong></small>
+				<button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+				  <span aria-hidden="true">&times;</span>
+				</button>
+			  </div>
+			  <div class="toast-body">
+				<? echo $INFO; ?>
+			  </div>
+			</div>
+<?
+}
+// VERIFICA LANC
+?>
 <?
 // FILTER
 if ( $ALERT=='NO_FILTER' ) {
@@ -140,7 +162,7 @@ if ( $ALERT=='NO_DELET' ) {
 				</button>
 			  </div>
 			  <div class="toast-body text-white">
-				<span class="badge badge-pill badge-warning">Erro na execução:<span>
+				<span class="badge badge-pill badge-warning">Erro na execução:</span>
 				<? echo $INFO; ?>
 			  </div>
 			</div>

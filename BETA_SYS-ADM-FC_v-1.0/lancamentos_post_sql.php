@@ -11,6 +11,7 @@ if(isset($_POST['INSERT']))
 	$LNC_OBSERVACAO = $_POST['LANC_OBSERVACAO'];
 	$LNC_VALOR      = $_POST['LANC_VALOR'];
 	$LNC_DATA       = $_POST['LANC_DATA'];
+	$LNC_MODO       = $_POST['LANC_MODO'];
 	
 	$LNC_ID_EMPRESA = "$S_EMP_ID"; //Pegar valor da Session
 	$LNC_ATIVO = "1"; //Entra sempre como ativo
@@ -34,14 +35,14 @@ $D_X_A = $DATA_X[2];
 $LNC_DATA_BD = "$D_X_A-$D_X_M-$D_X_D";
 
 	//SQL Alterar informações para o BD.
-	$query = "INSERT INTO lancamentos (id_lancamento, id_empresa, id_lanc_grupo, id_lanc_tipo, observacao, valor, data, ativo) VALUES ('$LNC_ID','$LNC_ID_EMPRESA','$LNC_GRP_ID','$LNC_TIP_ID','$LNC_OBSERVACAO','$LNC_VALOR_BD','$LNC_DATA_BD','$LNC_ATIVO');";
+	$query = "INSERT INTO $TABLE_SELECT (id_lancamento, id_empresa, id_lanc_grupo, id_lanc_tipo, observacao, valor, data, modo, ativo) VALUES ('$LNC_ID','$LNC_ID_EMPRESA','$LNC_GRP_ID','$LNC_TIP_ID','$LNC_OBSERVACAO','$LNC_VALOR_BD','$LNC_DATA_BD','$LNC_MODO','$LNC_ATIVO');";
 	//echo "$query<BR>";
 
 // INI TOSATS ALERTA
 
-  	$result1 = mysqli_query($connect, $query, MYSQLI_USE_RESULT);// envia a query
-	$result2 = mysqli_affected_rows($connect);
-	$result3 = mysqli_error($connect);
+  	$result1 = mysqli_query($CONNECT_CLIENTE, $query, MYSQLI_USE_RESULT);// envia a query
+	$result2 = mysqli_affected_rows($CONNECT_CLIENTE);
+	$result3 = mysqli_error($CONNECT_CLIENTE);
 
 	//DEBUG
 	//print_r("R1: $result1<br />");
@@ -83,6 +84,7 @@ if(isset($_POST['ALTERAR']))
 	$LNC_OBSERVACAO = $_POST['LANC_OBSERVACAO'];
 	$LNC_VALOR      = $_POST['LANC_VALOR'];
 	$LNC_DATA       = $_POST['LANC_DATA'];
+	$LNC_MODO       = $_POST['LANC_MODO'];
 	
 	$LNC_ID_EMPRESA = "$S_EMP_ID"; //Pegar valor da Session
 	$LNC_ATIVO = "1"; //Entra sempre como ativo
@@ -106,14 +108,14 @@ $D_X_A = $DATA_X[2];
 $LNC_DATA_BD = "$D_X_A-$D_X_M-$D_X_D";
 
 	//SQL Alterar informações para o BD.
-	$query = "UPDATE lancamentos SET id_lanc_grupo='$LNC_GRP_ID', id_lanc_tipo='$LNC_TIP_ID', observacao='$LNC_OBSERVACAO', valor='$LNC_VALOR_BD', data='$LNC_DATA_BD' WHERE id_lancamento='$LNC_ID';";
+	$query = "UPDATE $TABLE_SELECT SET id_lanc_grupo='$LNC_GRP_ID', id_lanc_tipo='$LNC_TIP_ID', observacao='$LNC_OBSERVACAO', valor='$LNC_VALOR_BD', data='$LNC_DATA_BD' WHERE id_lancamento='$LNC_ID';";
 	//echo "$query<BR>";
 
 // INI TOSATS ALERTA
 
-  	$result1 = mysqli_query($connect, $query, MYSQLI_USE_RESULT);// envia a query
-	$result2 = mysqli_affected_rows($connect);
-	$result3 = mysqli_error($connect);
+  	$result1 = mysqli_query($CONNECT_CLIENTE, $query, MYSQLI_USE_RESULT);// envia a query
+	$result2 = mysqli_affected_rows($CONNECT_CLIENTE);
+	$result3 = mysqli_error($CONNECT_CLIENTE);
 
 	//DEBUG
 	//print_r("R1: $result1<br />");
@@ -155,14 +157,14 @@ if(isset($_POST['DELETAR']))
 	$LNC_DATA       = $_POST['LANC_DATA'];
 
 	//SQL deleta informação do BD.
-	$query = "DELETE FROM lancamentos WHERE id_lancamento = '$LNC_ID';";
+	$query = "DELETE FROM $TABLE_SELECT WHERE id_lancamento = '$LNC_ID';";
 	// echo "$query";
 
 // INI TOSATS ALERTA
 
-  	$result1 = mysqli_query($connect, $query, MYSQLI_USE_RESULT);// envia a query
-	$result2 = mysqli_affected_rows($connect);
-	$result3 = mysqli_error($connect);
+  	$result1 = mysqli_query($CONNECT_CLIENTE, $query, MYSQLI_USE_RESULT);// envia a query
+	$result2 = mysqli_affected_rows($CONNECT_CLIENTE);
+	$result3 = mysqli_error($CONNECT_CLIENTE);
 
 	//DEBUG
 	//print_r("R1: $result1<br />");

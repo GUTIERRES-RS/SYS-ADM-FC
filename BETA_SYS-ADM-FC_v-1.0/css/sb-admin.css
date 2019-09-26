@@ -336,10 +336,12 @@ body.sidenav-toggled .navbar-sidenav-tooltip.show {
 
 #mainNav.navbar-dark .navbar-collapse .navbar-sidenav > .nav-item > .nav-link {
   color: #868e96;
+  transition: 0.3s;
 }
 
 #mainNav.navbar-dark .navbar-collapse .navbar-sidenav > .nav-item > .nav-link:hover {
   color: #adb5bd;
+  background: #454d54;
 }
 
 #mainNav.navbar-dark .navbar-collapse .navbar-sidenav > .nav-item .sidenav-second-level > li > a,
@@ -478,7 +480,22 @@ footer.sticky-footer {
 }
 
 .btn-link {
-	padding: 0 2px 1.5px 2px;
+	padding: 0px 0px 1.2px 0px;
 	margin: 0 0 0 0;
-	border-radius: 100%;
+	width:25px;
+	height:25px;
+	border-radius: 50%;
+	vertical-align: middle;
+}
+
+.total-success {
+    color: #155724!important;
+    background-color: #d4edda!important;
+    border-color: #c3e6cb!important;
+}
+
+.total-danger {
+    color: #721c24!important;
+    background-color: #f8d7da!important;
+    border-color: #f5c6cb!important;
 }

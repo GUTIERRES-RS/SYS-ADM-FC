@@ -1,11 +1,16 @@
 
-			<form action="?pag=painel&sec=index&vp=lancamentos" method="post" enctype="multipart/form-data">
+			<form action="<?=$_SERVER['REQUEST_URI'];?>" method="post" enctype="multipart/form-data">
 
 				<div class="modal fade" id="Modal_INSERT" tabindex="-1" role="dialog" aria-labelledby="ModalLabel_INSERT" aria-hidden="true">
 				  <div class="modal-dialog modal-lg" role="document">
 					<div class="modal-content">
 					  <div class="modal-header">
-						<h5 class="modal-title" id="ModalLabel_INSERT">NOVO LANÇAMENTO: <span class="badge badge-warning"><?echo "$LANC_GRP_DESCR"; ?></span> <small class="text-muted">Preecha todos os dados</small></h5>
+
+						<h6 class="modal-title" id="ModalLabel_INSERT">
+							NOVO LANÇAMENTO <?=$TITULO?>: <small class="text-muted">Preecha todos os dados</small><br />
+							GRUPO: <span class="badge badge-warning"><?echo "$LANC_GRP_DESCR"; ?></span>
+						</h6>
+
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						  <span aria-hidden="true">&times;</span>
 						</button>
@@ -13,6 +18,17 @@
 					  <div class="modal-body">
 						
 						<input type="hidden" name="LANC_ID" value="0" />
+
+<?if( $_GET['md']== 'diario' ) {?>
+						<input type="hidden" name="LANC_MODO" value="LD" />
+<?}?>
+<?if( $_GET['md']== 'pagar' ) {?>
+						<input type="hidden" name="LANC_MODO" value="LP" />
+<?}?>
+<?if( $_GET['md']== 'receber' ) {?>
+						<input type="hidden" name="LANC_MODO" value="LR" />
+<?}?>
+
 						<input type="hidden" name="LANC_GRP_ID" value="<? echo "$LANC_GRP_ID";?>" />
 
 						<div class="card-body">
@@ -28,15 +44,35 @@
 <?
 $sql_TIP = "SELECT * FROM lanc_tipos ORDER BY id_lanc_tipo ASC;";
 //echo "$sql_TIP";
-$result_TIP  = mysqli_query($connect, $sql_TIP);
+$result_TIP  = mysqli_query($CONNECT_PRIMARY, $sql_TIP);
 
 while ($row_TIP  = mysqli_fetch_assoc($result_TIP )) {
 
 	$VW_TIP_ID    = $row_TIP ['id_lanc_tipo'];
 	$VW_TIP_DESCR = $row_TIP ['descricao'];
+
+if( $_GET['md']== 'diario' ) {
 ?>
 									<option value="<? echo "$VW_TIP_ID";?>"><? echo "$VW_TIP_DESCR";?></option>
 <?
+}
+
+if( $_GET['md']== 'pagar' ) {
+	if ($VW_TIP_ID=='2') {
+?>
+									<option value="<? echo "$VW_TIP_ID";?>"><? echo "$VW_TIP_DESCR";?></option>
+<?
+	}
+}
+
+if( $_GET['md']== 'receber' ) {
+	if ($VW_TIP_ID=='1') {
+?>
+									<option value="<? echo "$VW_TIP_ID";?>"><? echo "$VW_TIP_DESCR";?></option>
+<?
+	}
+}
+
 }
 ?>
 

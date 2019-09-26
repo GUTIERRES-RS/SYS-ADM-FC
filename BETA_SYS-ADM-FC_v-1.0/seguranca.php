@@ -1,4 +1,4 @@
-<?php
+<?
 /**
 * Sistema de segurança com acesso restrito
 *
@@ -58,7 +58,7 @@ if ($_SG['abreSessao'] == true) {
 */
 
 function validaUsuario($usuario, $senha, $ativo) {
-  include ('db.php');
+  include ('db_primary.php');
   global $_SG;
   $cS = ($_SG['caseSensitive']) ? 'BINARY' : '';
   // Usa a função addslashes para escapar as aspas
@@ -67,7 +67,7 @@ function validaUsuario($usuario, $senha, $ativo) {
   $nativo   = addslashes($ativo);
   // Monta uma consulta SQL (query) para procurar um usuário
   $sql = "SELECT `id`, `id_empresa`, `nome`, `nivel` FROM `".$_SG['tabela']."` WHERE ".$cS." `usuario` = '".$nusuario."' AND ".$cS." `senha` = '".md5($nsenha)."' AND ".$cS." `ativo` = '".$nativo."' LIMIT 1";
-  $query = mysqli_query($connect, $sql);
+  $query = mysqli_query($CONNECT_PRIMARY, $sql);
   $resultado = mysqli_fetch_assoc($query);
   // Verifica se encontrou algum registro
   if (empty($resultado)) {

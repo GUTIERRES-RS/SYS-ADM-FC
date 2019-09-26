@@ -20,7 +20,7 @@
 		<div class="row overflow-auto">
 			<div class="col-12">
 
-				<table class="table table-striped text-nowrap">
+				<table class="table table-striped text-nowrap table-sm">
 
 				  <thead>
 
@@ -31,7 +31,7 @@
 					  <th scope="col">IP</th>
 					  <th scope="col">ULT. ATIVIDADE</th>
 					  <th scope="col">ATIVO</th>
-					  <th scope="col" class="text-right">AÇÕES</th>
+					  <th scope="col" class="text-center" style="width:30px;">AÇÕES</th>
 					</tr>
 
 				  </thead>
@@ -40,7 +40,7 @@
 <?
 
 $sql_USR_ON = "SELECT * FROM users_painel_on ORDER BY users_painel_temp DESC;";
-$result_USR_ON  = mysqli_query($connect, $sql_USR_ON);
+$result_USR_ON  = mysqli_query($CONNECT_PRIMARY, $sql_USR_ON);
 
 while ($row_USR_ON  = mysqli_fetch_assoc($result_USR_ON )) {
 
@@ -69,7 +69,7 @@ $VW_DATA = "$D_X_D/$D_X_M/$D_X_A";
 <?
 
 $sql_USR_P = "SELECT * FROM users_painel WHERE id='$VW_USR_ON_P_ID';";
-$result_USR_P  = mysqli_query($connect, $sql_USR_P);
+$result_USR_P  = mysqli_query($CONNECT_PRIMARY, $sql_USR_P);
 
 while ($row_USR_P  = mysqli_fetch_assoc($result_USR_P )) {
 
@@ -79,7 +79,7 @@ while ($row_USR_P  = mysqli_fetch_assoc($result_USR_P )) {
 	$VW_USR_P_USR   = $row_USR_P ['usuario'];
 
 $sql_EMP = "SELECT * FROM empresas WHERE id_empresa='$VW_USR_P_ID_EP';";
-$result_EMP  = mysqli_query($connect, $sql_EMP);
+$result_EMP  = mysqli_query($CONNECT_PRIMARY, $sql_EMP);
 
 while ($row_EMP  = mysqli_fetch_assoc($result_EMP )) {
 
@@ -100,7 +100,7 @@ while ($row_EMP  = mysqli_fetch_assoc($result_EMP )) {
 if ($VW_USR_ON_ATIVO=='1') {$ATIVO="<spam class='badge badge-success'>On-Line</spam>";} else {$ATIVO="<spam class='badge badge-danger'>Off-Line</spam>";}
 ?>
 					  <td><? echo "$ATIVO";?></td>
-					  <td class="text-right" style="width:10%;">
+					  <td class="text-right">
 
 						<div class="d-inline-block">
 							<!-- Button trigger modal -->

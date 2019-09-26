@@ -1,10 +1,15 @@
-			<form action="?pag=painel&sec=index&vp=tipos" method="post" enctype="multipart/form-data">
+			<form action="<?=$_SERVER['REQUEST_URI'];?>" method="post" enctype="multipart/form-data">
 
 				<div class="modal fade" id="Modal_<? echo "$VW_TIP_ID";?>" role="dialog" aria-labelledby="ModalLabel_<? echo "$VW_TIP_ID";?>" aria-hidden="true"><!-- On modal disable this tabindex="-1" for ckeditor fuction is ok-->
 				  <div class="modal-dialog modal-lg" role="document">
 					<div class="modal-content">
 					  <div class="modal-header">
-						<h5 class="modal-title" id="ModalLabel_<? echo "$VW_TIP_ID";?>"><? echo "$VW_TIP_DESCR";?> <small class="text-muted">ID.: <? echo "$VW_TIP_ID";?></small></h5>
+
+						<h6 class="modal-title" id="ModalLabel_<? echo "$VW_TIP_ID";?>">
+							ALTERAR TIPO: <small class="text-muted">Preecha todos os dados do Tipo</small></br >
+							<small class="badge badge-warning">ID.: <? echo "$VW_TIP_ID";?></small>
+						</h6>
+
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						  <span aria-hidden="true">&times;</span>
 						</button>

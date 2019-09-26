@@ -1,10 +1,15 @@
-			<form action="?pag=painel&sec=index&vp=lancamentos" method="post" enctype="multipart/form-data">
+			<form action="<?=$_SERVER['REQUEST_URI'];?>" method="post" enctype="multipart/form-data">
 
 				<div class="modal fade" id="Modal_EDIT_LANC_<? echo "$VW_LANC_L_ID";?>" role="dialog" aria-labelledby="ModalLabel_<? echo "$VW_LANC_L_ID";?>" aria-hidden="true"><!-- On modal disable this tabindex="-1" for ckeditor fuction is ok-->
 				  <div class="modal-dialog modal-lg" role="document">
 					<div class="modal-content">
 					  <div class="modal-header">
-						<h5 class="modal-title" id="ModalLabel_<? echo "$VW_LANC_L_ID";?>">EDITAR LANÇAMENTO: <span class="badge badge-warning"><? echo "$VW_L_GRP_DESCR";?></span><br /><small class="text-muted">ID.: <? echo "$VW_LANC_L_ID";?></small></h5>
+
+						<h6 class="modal-title" id="ModalLabel_<? echo "$VW_LANC_L_ID";?>">
+							EDITAR LANÇAMENTO:<br />
+							<small class="badge badge-warning">ID.: <? echo "$VW_LANC_L_ID";?></small>
+						</h6>
+						
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						  <span aria-hidden="true">&times;</span>
 						</button>
@@ -12,7 +17,17 @@
 					  <div class="modal-body">
 						
 						<input type="hidden" name="LANC_ID" value="<? echo "$VW_LANC_L_ID";?>" />
-						
+
+<?if( $_GET['md']== 'diario' ) {?>
+						<input type="hidden" name="LANC_MODO" value="LD" />
+<?}?>
+<?if( $_GET['md']== 'pagar' ) {?>
+						<input type="hidden" name="LANC_MODO" value="LP" />
+<?}?>
+<?if( $_GET['md']== 'receber' ) {?>
+						<input type="hidden" name="LANC_MODO" value="LR" />
+<?}?>
+
 						<div class="card-body">
 						
 							<div class="card-title">
@@ -22,12 +37,12 @@
 										<span class="input-group-text">GRUPO</span>
 									</div>
 
-									<select name="LANC_GRP_ID" class="form-control selectpicker" id="<? echo "$VW_LANC_L_ID";?>" data-max-options="1" data-live-search="true" multiple>
+									<select name="LANC_GRP_ID" class="form-control selectpicker" id="<? echo "$VW_LANC_L_ID";?>" data-max-options="1" data-live-search="true" data-style="custom-select" data-width="20%" multiple>
 
 <?							
 $sql_GRP = "SELECT * FROM lanc_grupos WHERE id_empresa='$S_EMP_ID' ORDER BY descricao ASC;";
 //echo "$sql_GRP";
-$result_GRP  = mysqli_query($connect, $sql_GRP);
+$result_GRP  = mysqli_query($CONNECT_CLIENTE, $sql_GRP);
 
 while ($row_GRP  = mysqli_fetch_assoc($result_GRP )) {
 
@@ -35,21 +50,19 @@ while ($row_GRP  = mysqli_fetch_assoc($result_GRP )) {
 	$VW_GRP_E_ID  = $row_GRP ['id_empresa'];
 	$VW_GRP_DESCR = $row_GRP ['descricao'];
 	$VW_GRP_ATIVO = $row_GRP ['ativo'];
-	
-if ($VW_LANC_L_G_ID==$VW_GRP_ID) {
 
+if ($VW_LANC_L_G_ID==$VW_GRP_ID) {
 ?>
 										<option value="<? echo "$VW_GRP_ID";?>" selected><? echo "$VW_GRP_DESCR";?></option>
 <?
 } else {
-
 ?>
 										<option value="<? echo "$VW_GRP_ID";?>"><? echo "$VW_GRP_DESCR";?></option>
 <?
-
 }
 
 }
+
 ?>
 
 									</select>
@@ -64,7 +77,7 @@ if ($VW_LANC_L_G_ID==$VW_GRP_ID) {
 										<option value="<? echo "$VW_LANC_L_T_ID";?>" selected><? echo "$VW_L_TIP_DESCR";?></option>
 <?							
 $sql_OP_LANC_TIP = "SELECT * FROM lanc_tipos ORDER BY id_lanc_tipo ASC;";
-$result_OP_LANC_TIP  = mysqli_query($connect, $sql_OP_LANC_TIP);
+$result_OP_LANC_TIP  = mysqli_query($CONNECT_PRIMARY, $sql_OP_LANC_TIP);
 
 while ($row_OP_LANC_TIP  = mysqli_fetch_assoc($result_OP_LANC_TIP )) {
 
@@ -76,9 +89,28 @@ while ($row_OP_LANC_TIP  = mysqli_fetch_assoc($result_OP_LANC_TIP )) {
 
 <?
 	} else {
+
+if( $_GET['md']== 'diario' ) {
 ?>
-										<option value="<? echo "$VW_L_OP_ID_TIP";?>"><? echo "$VW_L_OP_TIP_DESCR";?></option>
+									<option value="<? echo "$VW_L_OP_ID_TIP";?>"><? echo "$VW_L_OP_TIP_DESCR";?></option>
 <?
+}
+
+if( $_GET['md']== 'pagar' ) {
+	if ($VW_L_OP_ID_TIP=='2') {
+?>
+									<option value="<? echo "$VW_L_OP_ID_TIP";?>"><? echo "$VW_L_OP_TIP_DESCR";?></option>
+<?
+	}
+}
+
+if( $_GET['md']== 'receber' ) {
+	if ($VW_L_OP_ID_TIP=='1') {
+?>
+									<option value="<? echo "$VW_L_OP_ID_TIP";?>"><? echo "$VW_L_OP_TIP_DESCR";?></option>
+<?
+	}
+}
 	}
 }
 ?>	
@@ -97,7 +129,7 @@ while ($row_OP_LANC_TIP  = mysqli_fetch_assoc($result_OP_LANC_TIP )) {
 								  <div class="input-group-prepend">
 									<span class="input-group-text" id="basic-addon1">Valor R$</span>
 								  </div>
-								  <input type="text" name="LANC_VALOR" value="<? echo "$VW_LANC_VALOR";?>" class="form-control" aria-label="Titulo" aria-describedby="basic-addon1" placeholder="0,00" />
+								  <input type="text" name="LANC_VALOR" value="<? echo "$VW_LANC_VALOR_FORM";?>" class="form-control" aria-label="Titulo" aria-describedby="basic-addon1" placeholder="0,00" />
 								</div>
 								
 								<div class="input-group mb-3">

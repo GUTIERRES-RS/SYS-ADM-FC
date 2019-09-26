@@ -1,11 +1,12 @@
-<? include ('conexao.php');?>
+<? include ('conexao.php');
 
-<? if ($_GET['sec'] == "index") {?>
+if ($_GET['sec'] == "index") {
 
-<? include ('painel.php');?>
+include ('painel.php');
 
-<?} else {?>
+} else {
 
-<? include ('login.php');?>
+include ('login.php');
 
-<?}?>
+}
+?>

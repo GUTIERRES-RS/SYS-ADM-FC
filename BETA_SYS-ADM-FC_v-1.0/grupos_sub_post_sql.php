@@ -5,14 +5,15 @@ if(isset($_POST['INSERT']))
 
 {
 
-	$GRP_ID    = $_POST['GRP_ID'];
-	$GRP_DESCR = $_POST['GRP_DESCR'];
+	$S_GRP_ID    = $_POST['S_GRP_ID'];
+	$S_GRP_DESCR = $_POST['S_GRP_DESCR'];
 	
-	$GRP_EMPRESA = "$S_EMP_ID"; //Pegar valor da Session
-	$GRP_ATIVO   = "1"; //Entra sempre como ativo
+	$S_GRP_EMPRESA = "$S_EMP_ID"; //Pegar valor da Session
+	$S_GRP_ATIVO   = "1"; //Entra sempre como ativo
 
-	//SQL QUERY.
-	$query = "INSERT INTO lanc_grupos (id_lanc_grupo, id_empresa, descricao, ativo) VALUES ('$GRP_ID','$GRP_EMPRESA','$GRP_DESCR','$GRP_ATIVO');";
+	//SQL Alterar informações para o BD.
+	$query = "INSERT INTO sub_grupos (id_sub_grupo, id_empresa, descricao, ativo) VALUES ('$S_GRP_ID','$S_GRP_EMPRESA','$S_GRP_DESCR','$S_GRP_ATIVO');";
+	//echo "$query<BR>";
 
 // INI TOSATS ALERTA
 
@@ -20,20 +21,20 @@ if(isset($_POST['INSERT']))
 	$result2 = mysqli_affected_rows($CONNECT_CLIENTE);
 	$result3 = mysqli_error($CONNECT_CLIENTE);
 
+	//DEBUG
+	//print_r("R1: $result1<br />");
+	//print_r("R2: $result2<br />");
+	//printf ("R3: $result3");
+
 	$R1 = "<strong>R1:</strong> $result1<br />";
 	$R2 = "<strong>R2:</strong> $result2<br />";
 	$R3 = "<strong>R3:</strong> $result3<br />";
 	$R4 = "<strong>R4:</strong> $query";
-
-	//DEBUG
-	//print_r("R1: $result1<br />");
-	//print_r("R2: $result2<br />");
-	//printf ("R3: $result3<br />");
-	//printf ("R4: $query");
+	
 
 if ( $result2=='0' | $result2=='1' ) {
 	$ALERT = "OK_INSERT";
-	$INFO  = '<strong>NOVO GRUPO</strong><br /><strong>DESCRIÇÃO:</strong> '.$GRP_DESCR.'';
+	$INFO  = '<strong>NOVO GRUPO</strong><br /><strong>DESCRIÇÃO:</strong> '.$S_GRP_DESCR.'';
 } else {
 	$ALERT = "NO_INSERT";
 	$INFO  = "<br />$R1 $R2 $R3 $R4";
@@ -54,13 +55,13 @@ if(isset($_POST['ALTERAR']))
 
 {
 
-	$GRP_ID    = $_POST['GRP_ID'];
-	$GRP_DESCR = $_POST['GRP_DESCR'];
+	$S_GRP_ID    = $_POST['S_GRP_ID'];
+	$S_GRP_DESCR = $_POST['S_GRP_DESCR'];
 
-	$GRP_ATIVO   = "1"; //Entra sempre como ativo
+	$S_GRP_ATIVO   = "1"; //Entra sempre como ativo
 
-	//SQL QUERY.
-	$query = "UPDATE lanc_grupos SET descricao='$GRP_DESCR' WHERE id_lanc_grupo='$GRP_ID';";
+	//SQL Alterar informações para o BD.
+	$query = "UPDATE sub_grupos SET descricao='$S_GRP_DESCR' WHERE id_sub_grupo='$S_GRP_ID';";
 
 // INI TOSATS ALERTA
 
@@ -68,20 +69,20 @@ if(isset($_POST['ALTERAR']))
 	$result2 = mysqli_affected_rows($CONNECT_CLIENTE);
 	$result3 = mysqli_error($CONNECT_CLIENTE);
 
+	//DEBUG
+	//print_r("R1: $result1<br />");
+	//print_r("R2: $result2<br />");
+	//printf ("R3: $result3");
+
 	$R1 = "<strong>R1:</strong> $result1<br />";
 	$R2 = "<strong>R2:</strong> $result2<br />";
 	$R3 = "<strong>R3:</strong> $result3<br />";
 	$R4 = "<strong>R4:</strong> $query";
-
-	//DEBUG
-	//print_r("R1: $result1<br />");
-	//print_r("R2: $result2<br />");
-	//printf ("R3: $result3<br />");
-	//printf ("R4: $query");
+	
 
 if ( $result2=='0' | $result2=='1' ) {
 	$ALERT = "OK_ALTER";
-	$INFO  = '<strong>GRUPO ID:</strong> '.$GRP_ID.'<br /><strong>DESCRIÇÃO:</strong> '.$GRP_DESCR.'';
+	$INFO  = '<strong>GRUPO ID:</strong> '.$S_GRP_ID.'<br /><strong>DESCRIÇÃO:</strong> '.$S_GRP_DESCR.'';
 } else {
 	$ALERT = "NO_ALTER";
 	$INFO  = "<br />$R1 $R2 $R3 $R4";
@@ -102,11 +103,11 @@ if(isset($_POST['DELETAR']))
 
 {
 
-	$GRP_ID    = $_POST['GRP_ID'];
-	$GRP_DESCR = $_POST['GRP_DESCR'];
+	$S_GRP_ID    = $_POST['S_GRP_ID'];
+	$S_GRP_DESCR = $_POST['S_GRP_DESCR'];
 
-	//SQL QUERY.
-	$query = "DELETE FROM lanc_grupos WHERE id_lanc_grupo = '$GRP_ID';";
+	//SQL deleta informação do BD.
+	$query = "DELETE FROM sub_grupos WHERE id_sub_grupo = '$S_GRP_ID';";
 
 // INI TOSATS ALERTA
 
@@ -114,20 +115,20 @@ if(isset($_POST['DELETAR']))
 	$result2 = mysqli_affected_rows($CONNECT_CLIENTE);
 	$result3 = mysqli_error($CONNECT_CLIENTE);
 
+	//DEBUG
+	//print_r("R1: $result1<br />");
+	//print_r("R2: $result2<br />");
+	//printf ("R3: $result3");
+
 	$R1 = "<strong>R1:</strong> $result1<br />";
 	$R2 = "<strong>R2:</strong> $result2<br />";
 	$R3 = "<strong>R3:</strong> $result3<br />";
 	$R4 = "<strong>R4:</strong> $query";
-
-	//DEBUG
-	//print_r("R1: $result1<br />");
-	//print_r("R2: $result2<br />");
-	//printf ("R3: $result3<br />");
-	//printf ("R4: $query");
+	
 
 if ( $result2=='0' | $result2=='1' ) {
 	$ALERT = "OK_DELET";
-	$INFO  = '<strong>GRUPO ID:</strong> '.$GRP_ID.'<br /><strong>DESCRIÇÃO:</strong> '.$GRP_DESCR.'';
+	$INFO  = '<strong>GRUPO ID:</strong> '.$S_GRP_ID.'<br /><strong>DESCRIÇÃO:</strong> '.$S_GRP_DESCR.'';
 } else {
 	$ALERT = "NO_DELET";
 	$INFO  = "<br />$R1 $R2 $R3 $R4";

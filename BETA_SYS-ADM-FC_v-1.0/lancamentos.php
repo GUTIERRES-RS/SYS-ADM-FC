@@ -1,5 +1,29 @@
     <div class="container-fluid">
+<?
+if( $_GET['md']== 'diario' ) {
 
+	$TABLE_SELECT = "lancamentos";
+	$TITULO       = "Lançamentos Diarios";
+	$MODO         = "LD";
+	//echo "$TABLE_SELECT";
+}
+
+if( $_GET['md']== 'pagar' ) {
+
+	$TABLE_SELECT = "lancamentos";
+	$TITULO       = "Contas a Pagar";
+	$MODO         = "LP";
+	//echo "$TABLE_SELECT";
+}
+
+if( $_GET['md']== 'receber' ) {
+
+	$TABLE_SELECT = "lancamentos";
+	$TITULO       = "Contas a Receber";
+	$MODO         = "LR";
+	//echo "$TABLE_SELECT";
+}
+?>
 <? include ('lancamentos_post_sql.php'); ?>
 
 		<!-- Breadcrumbs-->
@@ -7,7 +31,7 @@
 		<li class="breadcrumb-item">
 		  <a href="?pag=painel&sec=index&vp=home">Painel</a>
 		</li>
-		<li class="breadcrumb-item active">Lançamentos</li>
+		<li class="breadcrumb-item active"><?=$TITULO; ?></li>
 		</ol>
 
 		<div class="row">
@@ -20,14 +44,16 @@ $(document).ready(function(){
 	});
 });
 </script>
-				<h3><span class="text-warning">Lançamentos</span> <small  class="text-muted" style="font-size:16px;">Aqui você insere, edita e deleta os Lançamentos. </small><button class="btn btn-sm btn-info" id="o_ajuda"><i class="fa fa-fw fa-question-circle"></i> Ajuda</button></h3>
+				<h3><span class="text-warning"><?=$TITULO; ?></span> <small  class="text-muted" style="font-size:16px;">Aqui você insere, edita e deleta <?=$TITULO; ?>. </small><button class="btn btn-sm btn-info" id="o_ajuda"><i class="fa fa-fw fa-question-circle"></i> Ajuda</button></h3>
 				
 				<div id="ajuda" class="alert alert-info alert-dismissible d-none" role="alert">
-					<strong>Informação:</strong>	Para inserir ou editar lançamentos e necessario que todos os campos sejam preenchidos.<br />
-					No campo DATA a mesma deve estar completa Ex: "dd/mm/aaaa"
+					<strong>Informação:</strong>	Para inserir ou editar <?=$TITULO; ?> e necessario que todos os campos sejam preenchidos.<br />
+					No campo DATA a mesma deve estar completa Ex: "dd/mm/aaaa" e no campo GRUPO uma opção deve ser selecionada para Inserir Novo Item.
 				</div>
 
 <?
+// DEBUG
+//echo '<span class="badge badge-secondary">DATA BASE:</span> <span class="badge badge-warning">'.$DB_CLIENTE.'</span>';
 // Aqui vai o recebimento das opções e tratamento primario para geração dos relatorios
 include ('lancamentos_options.php');
 ?>
@@ -37,7 +63,7 @@ include ('lancamentos_options.php');
 		<div class="row overflow-auto">
 			<div class="col-12">
 
-				<table class="table table-striped text-nowrap">
+				<table class="table table-striped text-nowrap table-sm">
 				  <thead>
 					<tr class="bg-primary text-white">
 					  <th scope="col">ID</th>
@@ -46,18 +72,49 @@ include ('lancamentos_options.php');
 					  <th scope="col">OBSERVAÇÃO</th>
 					  <th scope="col">VALOR</th>
 					  <th scope="col">DATA</th>
-					  <th scope="col" class="text-right">AÇÕES</th>
+					  <th scope="col" class="text-center" style="width:30px;">AÇÕES</th>
 					</tr>
 				  </thead>
 
 				  <tbody>
-
 <?
-$sql_LANC = "SELECT * FROM lancamentos WHERE id_empresa='$S_EMP_ID' AND YEAR(data) = '$D_X_C' AND MONTH(data) = '$D_X_B' AND DAY(data) = '$D_X_A' ORDER BY id_lanc_tipo, data, id_lancamento DESC;";
-//echo "$sql_LANC";
-$result_LANC  = mysqli_query($connect, $sql_LANC);
 
-$NUM_LANC = mysqli_num_rows($result_LANC);
+$SALDO_GERAL_DATA='0';
+
+$SQL_LANC_GRP = "SELECT * FROM lanc_grupos WHERE id_empresa='".$S_EMP_ID."';";
+// DEBUG SQL_LANC_GRP
+//echo "$SQL_LANC_GRP<br />";
+
+$result_LANC_GRP  = mysqli_query($CONNECT_CLIENTE, $SQL_LANC_GRP);
+
+while ($row_LANC_GRP  = mysqli_fetch_assoc($result_LANC_GRP )) {
+
+	$GRP_ID    = $row_LANC_GRP ['id_lanc_grupo'];
+	$GRP_DESCR = $row_LANC_GRP ['descricao'];
+
+$SQL_REL_VW="SELECT * FROM $TABLE_SELECT WHERE id_empresa='".$S_EMP_ID."' AND modo='".$MODO."'
+AND id_lanc_grupo='".$GRP_ID."' 
+AND (YEAR(data) = '".$D_X_C."' AND MONTH(data) = '".$D_X_B."' AND DAY(data) = '".$D_X_A."') 
+ORDER BY id_lanc_tipo, id_lancamento DESC;";
+
+// DEBUG SQL_REL_VW
+//echo "$SQL_REL_VW<br />";
+
+$result_LANC  = mysqli_query($CONNECT_CLIENTE, $SQL_REL_VW);
+
+$NUM_ROWS_LANC = mysqli_num_rows($result_LANC);
+//DEBUG NUM_ROWS_LANC
+//echo "$NUM_ROWS_LANC<br />";
+
+if ( $NUM_ROWS_LANC=="0" ) {
+	
+} else {
+
+?>
+					<tr class="bg-info text-white">
+					  <th scope="row" colspan="7">GRUPO: <? echo "$GRP_DESCR"; ?></th>
+					</tr>
+<?
 
 while ($row_LANC  = mysqli_fetch_assoc($result_LANC )) {
 
@@ -70,55 +127,34 @@ while ($row_LANC  = mysqli_fetch_assoc($result_LANC )) {
 	$VW_LANC_DATA_BD  = $row_LANC ['data'];
 	$VW_LANC_ATIVO    = $row_LANC ['ativo'];
 
-//Formata moeda para exibição: FUNÇÃO 2
-// Separa centavos do valor para contar o numero de caracteres para a formatação correta do valor.
-
-$VALOR_MOEDA_BD   = "$VW_LANC_VALOR_BD";            // Pega valor original do BD.
-$SEPAR_CENTS      = explode(".", $VALOR_MOEDA_BD);  // Separa o valor dos centavos.
-$SOMENT_CENT      = $SEPAR_CENTS[1];                // Pega só os centavos.
-$CONT_CARACT_CENT = strlen($SOMENT_CENT);           // Conta a quantidade de caracteres.
-	
-$VW_LANC_VALOR = number_format($VW_LANC_VALOR_BD, $CONT_CARACT_CENT, ',', '.');
+//Formata moeda para exibição:
+$VW_LANC_VALOR      = moeDaView($VW_LANC_VALOR_BD, 'TABLE');
+$VW_LANC_VALOR_FORM = moeDaView($VW_LANC_VALOR_BD, 'FORM');
 //echo "$VW_LANC_VALOR";
 //-------------------------------------------------------------------------------------------------------------
 
 //Formata a Data para exibição:
-$dia = substr("$VW_LANC_DATA_BD", -2);     // retorna "dd"
-$mes = substr("$VW_LANC_DATA_BD", -5 ,2);  // retorna "mm"
-$ano = substr("$VW_LANC_DATA_BD", -11 ,4); // retorna "yyyy"
-$VW_LANC_DATA = "$dia/$mes/$ano";
+$VW_LANC_DATA = daTaView($VW_LANC_DATA_BD);
+//echo "$VW_LANC_DATA";
 
-//------------------------------------------------------------------------------------
+
 $LANC_ID = $_POST['LANC_ID'];
 
-if ( $VW_LANC_L_ID=="$LANC_ID" ) { $BG_TR_L="bg-info text-white"; } else { $BG_TR_L=""; }
+if ( $VW_LANC_L_ID=="$LANC_ID" ) { $BG_TR_L="bg-warning"; } else { $BG_TR_L=""; }
 
 ?>
 
 					<tr class="<? echo "$BG_TR_L";?>">
 					  <th scope="row"><? echo "$VW_LANC_L_ID";?></th>
-<?
-$sql_LANC_GRP = "SELECT * FROM lanc_grupos WHERE id_lanc_grupo='$VW_LANC_L_G_ID';";
-$result_LANC_GRP  = mysqli_query($connect, $sql_LANC_GRP);
-
-while ($row_LANC_GRP  = mysqli_fetch_assoc($result_LANC_GRP )) {
-
-	$VW_L_GRP_ID	= $row_LANC_GRP ['id_lanc_grupo'];
-	$VW_L_GRP_DESCR = $row_LANC_GRP ['descricao'];
-
-?>
-					  <td><? echo "$VW_L_GRP_DESCR";?></td>
-<?
-}
-?>
+					  <td><? echo "$GRP_DESCR";?></td>
 
 <?
-$sql_LANC_TIP = "SELECT * FROM lanc_tipos WHERE id_lanc_tipo='$VW_LANC_L_T_ID';";
-$result_LANC_TIP  = mysqli_query($connect, $sql_LANC_TIP);
+$SQL_DESC_TIP = "SELECT * FROM lanc_tipos WHERE id_lanc_tipo='".$VW_LANC_L_T_ID."';";
+$result_DESC_TIP  = mysqli_query($CONNECT_PRIMARY, $SQL_DESC_TIP);
 
-while ($row_LANC_TIP  = mysqli_fetch_assoc($result_LANC_TIP )) {
+while ($row_DESC_TIP  = mysqli_fetch_assoc($result_DESC_TIP )) {
 
-	$VW_L_TIP_DESCR = $row_LANC_TIP ['descricao'];
+	$VW_L_TIP_DESCR = $row_DESC_TIP ['descricao'];
 
 ?>
 					  <td><? echo "$VW_L_TIP_DESCR";?></td>
@@ -126,13 +162,48 @@ while ($row_LANC_TIP  = mysqli_fetch_assoc($result_LANC_TIP )) {
 }
 ?>
 					  <td><? echo "$VW_LANC_OBS";?></td>
-					  <td>R$ <? echo "$VW_LANC_VALOR";?></td>
+					  <td><? echo "$VW_LANC_VALOR";?></td>
 					  <td><? echo "$VW_LANC_DATA";?></td>
-					  <td class="text-right" style="width:10%;">
-
+					  <td class="text-left">
+<? if( $_GET['md']== 'pagar' ) { ?>
 						<div class="d-inline-block">
 							<!-- Button trigger modal -->
-							<form action="?pag=painel&sec=index&vp=lancamentos" method="post" enctype="multipart/form-data">
+							<form action="<?=$_SERVER['REQUEST_URI'];?>" method="post" enctype="multipart/form-data">
+
+								<input type="hidden" name="LANC_EDIT" value="OK" />
+								<input type="hidden" name="LANC_GRP_ID" value="<? echo "".$VW_L_GRP_ID."|".$VW_L_GRP_DESCR."";?>" />
+
+								<input type="hidden" name="LANC_ID" value="<? echo "$VW_LANC_L_ID";?>" />
+								<input type="hidden" name="LANC_DATA" value="<? echo "$LANC_DATA";?>" />
+
+								<button type="submit" class="btn btn-sm btn-success btn-link text-white" name="EDIT_LANC_<? echo "$VW_LANC_L_ID";?>">
+									<i class="fa fa-fw fa-usd" data-toggle="tooltip" data-placement="top" title="PAGAR"></i>
+								</button>
+
+							</form>
+						</div>
+<?}?>
+<? if( $_GET['md']== 'receber' ) { ?>
+						<div class="d-inline-block">
+							<!-- Button trigger modal -->
+							<form action="<?=$_SERVER['REQUEST_URI'];?>" method="post" enctype="multipart/form-data">
+
+								<input type="hidden" name="LANC_EDIT" value="OK" />
+								<input type="hidden" name="LANC_GRP_ID" value="<? echo "".$VW_L_GRP_ID."|".$VW_L_GRP_DESCR."";?>" />
+
+								<input type="hidden" name="LANC_ID" value="<? echo "$VW_LANC_L_ID";?>" />
+								<input type="hidden" name="LANC_DATA" value="<? echo "$LANC_DATA";?>" />
+
+								<button type="submit" class="btn btn-sm btn-success btn-link text-white" name="EDIT_LANC_<? echo "$VW_LANC_L_ID";?>">
+									<i class="fa fa-fw fa-usd" data-toggle="tooltip" data-placement="top" title="RECEBER"></i>
+								</button>
+
+							</form>
+						</div>
+<?}?>
+						<div class="d-inline-block">
+							<!-- Button trigger modal -->
+							<form action="<?=$_SERVER['REQUEST_URI'];?>" method="post" enctype="multipart/form-data">
 
 								<input type="hidden" name="LANC_EDIT" value="OK" />
 								<input type="hidden" name="LANC_GRP_ID" value="<? echo "".$VW_L_GRP_ID."|".$VW_L_GRP_DESCR."";?>" />
@@ -149,12 +220,12 @@ while ($row_LANC_TIP  = mysqli_fetch_assoc($result_LANC_TIP )) {
 						
 						<div class="d-inline-block">
 							<!-- Button trigger modal -->
-							<form action="?pag=painel&sec=index&vp=lancamentos" method="post" enctype="multipart/form-data">
+							<form action="<?=$_SERVER['REQUEST_URI'];?>" method="post" enctype="multipart/form-data">
 
 								<input type="hidden" name="LANC_ID" value="<? echo "$VW_LANC_L_ID";?>" />
 								<input type="hidden" name="LANC_DATA" value="<? echo "$LANC_DATA";?>" />
 								<input type="hidden" name="LANC_OBSERVACAO" value="<? echo "$VW_LANC_OBS";?>" />
-								<input type="hidden" name="LANC_VALOR" value="<? echo "$VW_LANC_VALOR";?>" />
+								<input type="hidden" name="LANC_VALOR" value="<? echo "$VW_LANC_VALOR_FORM";?>" />
 								
 								<button type="submit" class="btn btn-sm btn-danger btn-link text-white" name ="DELETAR">
 									<i class="fa fa-fw fa-trash" data-toggle="tooltip" data-placement="top" title="DELETAR"></i>
@@ -169,7 +240,7 @@ while ($row_LANC_TIP  = mysqli_fetch_assoc($result_LANC_TIP )) {
 if(isset($_POST['EDIT_LANC_'."$VW_LANC_L_ID"])) {
 ?>
 					<tr>
-					  <td colspan="7">
+					  <th colspan="7">
 					  <span class="badge badge-warning">EDITANDO ID.:</span> <span class="badge badge-warning"><? echo"$VW_LANC_L_ID";?></span>
 <script type="text/javascript">
 	$(document).ready(function() {
@@ -179,7 +250,7 @@ if(isset($_POST['EDIT_LANC_'."$VW_LANC_L_ID"])) {
 						<!-- Modal -->
 <? include ('lancamentos_modal_update.php');?>
 						<!-- Modal -->
-					  </td>
+					  </th>
 					</tr>
 <?
 }
@@ -187,109 +258,114 @@ if(isset($_POST['EDIT_LANC_'."$VW_LANC_L_ID"])) {
 
 <?
 }
-// Nenhum Resultado encontrado no BD
-if ($NUM_LANC=='0') {
-?>
-					<tr>
-					  <th scope="row" colspan="7"><h5>Nenhum lançamento encontrado para a data selecionada.</h5></th>
-					</tr>
-<?
-}
-?>
-<!-- FUNÇÂO SOMA -->
-<?
 $N="0";
-$sql_LANC_GRP = "SELECT * FROM lanc_tipos ORDER BY id_lanc_tipo ASC;";
-$result_LANC_GRP  = mysqli_query($connect, $sql_LANC_GRP);
-while ($row_LANC_GRP  = mysqli_fetch_assoc($result_LANC_GRP )) {
+$sql_LANC_TIP = "SELECT * FROM lanc_tipos ORDER BY id_lanc_tipo ASC;";
+//echo "$sql_LANC_TIP<br />";
+$result_LANC_TIP  = mysqli_query($CONNECT_PRIMARY, $sql_LANC_TIP);
 
-	$ID_L_G    = $row_LANC_GRP ['id_lanc_tipo'];
-	$DESCR_L_G = $row_LANC_GRP ['descricao'];
+while ($row_LANC_TIP  = mysqli_fetch_assoc($result_LANC_TIP )) {
 
+	$TIP_ID    = $row_LANC_TIP ['id_lanc_tipo'];
+	$TIP_DESCR = $row_LANC_TIP ['descricao'];
 
-$sql_LANC_SOMA = "SELECT id_lanc_grupo, id_lanc_tipo, SUM(valor) as SOMA FROM lancamentos WHERE id_empresa='$S_EMP_ID' AND id_lanc_tipo='$ID_L_G' AND YEAR(data) = '$D_X_C' AND MONTH(data) = '$D_X_B' AND DAY(data) = '$D_X_A';";
+if ( $TIP_ID=='1' ) { $BG_TR_E_S = "total-success"; } else { $BG_TR_E_S = "total-danger"; }
 
-    $result_LANC_SOMA = mysqli_query($connect, $sql_LANC_SOMA);
-    while ($row_LANC_SOMA = mysqli_fetch_assoc($result_LANC_SOMA)) {
-        
-		$VW_ID_TIP = $row_LANC_SOMA["id_lanc_tipo"];
-		
-		$VW_TOTAL_BD  = $row_LANC_SOMA["SOMA"];
-		
-		// Cria um Array com os valores da soma
-		$V_SOMA[$N] = $row_LANC_SOMA['SOMA']; // aqui eu guardo em uma array o valor do while para ela nao substituir
-		$N++; // aqui eu vou aumentando a variavel
-		
-//Formata moeda para exibição: FUNÇÃO
-// Separa centavos do valor para contar o numero de caracteres para a formatação correta do valor.
+// Ex.: $D_X_A "ANO - OK"; YEAR(data) = '2019'
+$SQL_REL_SOMA="SELECT id_lanc_grupo, SUM(valor) as SOMA  FROM $TABLE_SELECT WHERE id_empresa='".$S_EMP_ID."' AND modo='".$MODO."' AND id_lanc_grupo='".$VW_LANC_L_G_ID."' AND id_lanc_tipo='".$TIP_ID."' AND (YEAR(data) = '".$D_X_C."' AND MONTH(data) = '".$D_X_B."' AND DAY(data) = '".$D_X_A."') GROUP BY id_lanc_grupo ORDER BY id_lanc_grupo ASC;";
 
-$VALOR_MOEDA_BD   = "$VW_TOTAL_BD";            // Pega valor original do BD.
-$SEPAR_CENTS      = explode(".", $VALOR_MOEDA_BD);  // Separa o valor dos centavos.
-//$SOMENT_CENT      = $SEPAR_CENTS[1];                // Pega só os centavos.
-//echo "$SOMENT_CENT";
-$CONT_CARACT_CENT = strlen($SOMENT_CENT);           // Conta a quantidade de caracteres.
+// DEBUG SQL_REL_SOMA
+//echo "$SQL_REL_SOMA<br />";
 
-if ($CONT_CARACT_CENT<"2") {$CONT_CARACT_CENT_T="2";} else {$CONT_CARACT_CENT_T="$CONT_CARACT_CENT";} // Verifica se e menor que 2.
+$result_LANC_SOMA = mysqli_query($CONNECT_CLIENTE, $SQL_REL_SOMA);
 
-$VW_TOTAL = number_format($VW_TOTAL_BD, $CONT_CARACT_CENT_T, ',', '.');
-//echo "$VW_TOTAL";
+while ($row_LANC_SOMA = mysqli_fetch_assoc($result_LANC_SOMA)) {
+	
+	$VW_ID_L_G   = $row_LANC_SOMA["id_lanc_grupo"];
+	$VW_TOTAL_BD = $row_LANC_SOMA["SOMA"];
 
-if ( $VW_ID_TIP=='1') { $TR_T_BG="alert-success"; } else { $TR_T_BG="alert-danger"; }
+	// Cria um Array com os valores da soma
+	$V_SOMA[$N]  = $row_LANC_SOMA['SOMA']; // aqui eu guardo em uma array o valor do while para ela nao substituir
+	$N++; // aqui eu vou aumentando a variavel
 
+	// Formata moeda para exibição:
+	$VW_TOTAL = moeDaView($VW_TOTAL_BD, 'TABLE');
+	//echo "$VW_TOTAL";
 ?>
-					<tr class="<? echo "$TR_T_BG"; ?>">
-					  <th scope="row" colspan="2"></th>
-					  <th scope="row" colspan="2">TOTAL de <? echo "$DESCR_L_G"; ?></th>
-					  <th scope="row">R$ <? echo "$VW_TOTAL"; ?></th>
-					  <th scope="row" colspan="2"></th>
+					<tr class="<? echo "$BG_TR_E_S"; ?>">
+					  <th scope="row" colspan="1"></th>
+					  <th scope="row" colspan="3">TOTAL: <? echo "$TIP_DESCR"; ?></th>
+					  <th scope="row" colspan="3"><? echo "$VW_TOTAL"; ?></th>
 					</tr>
 <?
 }
+
 }
 
-$TOTAL_E_S_BD = $V_SOMA[0]-$V_SOMA[1];
 
-if ( $TOTAL_E_S_BD<='0' ) { $BG_TR_T = "bg-danger text-white"; } else { $BG_TR_T = "bg-success text-white"; }
 
-//Formata moeda para exibição: FUNÇÃO
-// Separa centavos do valor para contar o numero de caracteres para a formatação correta do valor.
+$TOTAL_E_S = $V_SOMA[0]-$V_SOMA[1];
 
-$VALOR_MOEDA_BD   = "$TOTAL_E_S_BD";            // Pega valor original do BD.
-$SEPAR_CENTS      = explode(".", $VALOR_MOEDA_BD);  // Separa o valor dos centavos.
-//$SOMENT_CENT      = $SEPAR_CENTS[1];                // Pega só os centavos.
-//echo "$SOMENT_CENT";
-$CONT_CARACT_CENT = strlen($SOMENT_CENT);           // Conta a quantidade de caracteres.
+// Formata pra dois decimais:
+$TOTAL_E_S_BD = number_format($TOTAL_E_S, 2, '.', '');
 
-if ($CONT_CARACT_CENT<"2") {$CONT_CARACT_CENT_T="2";} else {$CONT_CARACT_CENT_T="$CONT_CARACT_CENT";} // Verifica se e menor que 2.
+// SOMA OS TOTAIS:
+$SALDO_GERAL_DATA += $TOTAL_E_S_BD; //usar "+=" somar, "-=" Subtrair, "*=" Mutiplicar e "/=" Dividir.
 
-$VW_TOTAL_E_S = number_format($TOTAL_E_S_BD, $CONT_CARACT_CENT_T, ',', '.');
-//echo "$VW_TOTAL";
+if ( $TOTAL_E_S_BD<='0' ) { $BG_TR = "bg-danger text-white"; } else { $BG_TR = "bg-success text-white"; }
 
-?>
-					<tr class="<? echo "$BG_TR_T";?>">
-					  <th scope="row" colspan="2"></th>
-					  <th scope="row" colspan="2">TOTAL de 
-<?
-$sql_LANC_GRP = "SELECT * FROM lanc_tipos ORDER BY id_lanc_tipo ASC;";
-$result_LANC_GRP  = mysqli_query($connect, $sql_LANC_GRP);
+// Formata moeda para exibição:
+$VW_TOTAL_E_S = moeDaView($TOTAL_E_S_BD, 'TABLE');
+//echo "$VW_TOTAL_E_S";
 
-while ($row_LANC_GRP  = mysqli_fetch_assoc($result_LANC_GRP )) {
+// WHILE PARA DESCRIÇÃO DOS TIPOS
+$sql_LANC_TIP_D = "SELECT * FROM lanc_tipos ORDER BY id_lanc_tipo ASC;";
+$result_LANC_TIP_D  = mysqli_query($CONNECT_PRIMARY, $sql_LANC_TIP_D);
+$T="0";
+while ($row_LANC_TIP_D  = mysqli_fetch_assoc($result_LANC_TIP_D )) {
 
-	$ID_L_G    = $row_LANC_GRP ['id_lanc_grupo'];
+	$ID_L_G    = $row_LANC_TIP_D ['id_lanc_tipo'];
 	
 	// Cria um Array com os valores da soma
-	$D[$T] = $row_LANC_GRP ['descricao']; // aqui eu guardo em uma array o valor do while para ela nao substituir
+	$D[$T] = $row_LANC_TIP_D ['descricao']; // aqui eu guardo em uma array o valor do while para ela nao substituir
 	$T++; // aqui eu vou aumentando a variavel
 
 }
-
-$DESCR = implode(" - ", $D);
-
+$DESCR_TIP_IMP = '( '.implode(" - ", $D).' )';
 ?>
-					  <? echo "$DESCR "; ?>
-					  </th>
-					  <th scope="row">R$ <? echo "$VW_TOTAL_E_S"; ?></th>
-					  <th scope="row" colspan="2"></th>
+					<tr class="<? echo "$BG_TR";?>">
+					  <th scope="row" colspan="1"></th>
+					  <th scope="row" colspan="3">TOTAL: <? echo "$DESCR_TIP_IMP "; ?> </th>
+					  <th scope="row" colspan="3"><? echo "$VW_TOTAL_E_S"; ?></th>
+					</tr>
+<?
+
+}
+
+if ( $NUM_ROWS_LANC=="0" ) {
+
+} else {
+?>
+					<tr class="bg-white">
+					  <th scope="row" colspan="7"></th>
+					</tr>
+<?
+}
+} //NUM_ROWS_LANC
+
+// Formata pra dois decimais:
+$SALDO_GERAL_DATA_2_D = number_format($SALDO_GERAL_DATA, 2, '.', '');
+
+// Formata moeda para exibição:
+$VW_TOTAL_T_G_E_S = moeDaView($SALDO_GERAL_DATA_2_D, 'TABLE');
+//echo "$VW_TOTAL_T_G_E_S";
+
+if ( $SALDO_GERAL_DATA<='0' ) { $BG_TR_TG = "alert-danger"; } else { $BG_TR_TG = "alert-success"; }
+?>
+					<tr class="bg-primary text-white">
+					  <th scope="row" colspan="7">SALDO GERAL DO DIA</th>
+					</tr>
+					<tr class="<? echo "$BG_TR_TG"; ?>">
+					  <th scope="row" colspan="7"><? echo "$VW_TOTAL_T_G_E_S"; ?></th>
 					</tr>
 
 				  </tbody>

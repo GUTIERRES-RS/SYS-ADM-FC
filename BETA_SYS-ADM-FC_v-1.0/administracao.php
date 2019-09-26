@@ -39,7 +39,8 @@
 										<strong>EMPRESA ID:</strong> <span class="badge badge-info"><? echo $_SESSION['usuario_usr_p_Empresa'];?></span><br />
 										<strong>Nome:</strong> <? echo $_SESSION['usuario_usr_p_Nome'];?><br />
 										<strong>Usuario:</strong> <? echo $_SESSION['usuario_usr_p_Login'];?><br />
-										<strong>Nivel:</strong> <? if ($_SESSION['usuario_usr_p_Nivel']=='1') {echo "WebMaster";} if ($_SESSION['usuario_usr_p_Nivel']=='2') {echo "Administrador";} if ($_SESSION['usuario_usr_p_Nivel']=='3') {echo "Usuario";}?>
+										<strong>Nivel:</strong> <? if ($_SESSION['usuario_usr_p_Nivel']=='1') {echo "WebMaster";} if ($_SESSION['usuario_usr_p_Nivel']=='2') {echo "Administrador";} if ($_SESSION['usuario_usr_p_Nivel']=='3') {echo "Usuario";}?><br />
+										<strong>SEU IP:</strong> <? echo $_SERVER["REMOTE_ADDR"];?>
 									</p>
 								</div>
 								
@@ -58,7 +59,7 @@
 
 <?
 $sql_PAGE_EMP = "SELECT * FROM empresas WHERE id_empresa='$S_EMP_ID';";
-$result_PAGE_EMP  = mysqli_query($connect, $sql_PAGE_EMP);
+$result_PAGE_EMP  = mysqli_query($CONNECT_PRIMARY, $sql_PAGE_EMP);
 
 while ($row_PAGE_EMP  = mysqli_fetch_assoc($result_PAGE_EMP )) {
 
@@ -73,7 +74,7 @@ while ($row_PAGE_EMP  = mysqli_fetch_assoc($result_PAGE_EMP )) {
 ?>
 									<h6>Dados da empresa:</h6>
 									
-									<form action="?pag=painel&sec=index&vp=administracao" method="post" enctype="multipart/form-data">
+									<form action="<?=$_SERVER['REQUEST_URI'];?>" method="post" enctype="multipart/form-data">
 									
 										<input type="hidden" name="ep_id" value="<? echo "$view_EP_ID";?>" />
 										

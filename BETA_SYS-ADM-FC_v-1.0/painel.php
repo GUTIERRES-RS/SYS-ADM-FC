@@ -30,16 +30,24 @@
   <!-- jQuery v3.3.1 -->
   <script type="text/javascript" src="vendor/jquery/jquery.min.js"></script>
 
+  <!-- TABLE EXPORT -->
+
  </head>
 
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
 
-	<!-- Navigation-->	
-<?include ('nav_bar.php');?>
+<?
+// VERICA LANC
+include ('verifica_lanc_now.php');
+?>
+
+<!-- Navigation-->
+<? include ('nav_bar.php'); ?>
+<!-- Navigation-->
 
   <div class="content-wrapper">
   
-    <!-- /.container-fluid-->
+    <!-- INI .container-fluid-->
 <?
 // Meu código de query string
 //INICIO _GET
@@ -56,8 +64,10 @@ if (file_exists("$pag.php")){
 	}
 //FIM _GET
 ?>
-    <!-- /.container-fluid-->
-<? $today = date("Y");?>	
+    <!-- END .container-fluid-->
+
+<? $today = date("Y");?>
+
     <footer class="sticky-footer">
       <div class="container">
         <div class="text-center">
@@ -65,12 +75,15 @@ if (file_exists("$pag.php")){
         </div>
       </div>
     </footer>
+
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
       <i class="fa fa-angle-up"></i>
     </a>
+
     <!-- Logout Modal-->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -86,7 +99,8 @@ if (file_exists("$pag.php")){
           </div>
         </div>
       </div>
-    </div>
+	
+	</div>
 
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
@@ -103,6 +117,9 @@ if (file_exists("$pag.php")){
 
 	<!-- (Optional) Latest compiled and minified JavaScript translation files -->
 	<script type="text/javascript" src="vendor/bootstrap-select-1.13.9/dist/js/i18n/defaults-pt_BR.min.js"></script>
+
+	<!-- TABLE EXPORT -->
+	<script src="export/jquery.table2excel.js"></script>
 
   </div>
   <!-- /.content-wrapper-->

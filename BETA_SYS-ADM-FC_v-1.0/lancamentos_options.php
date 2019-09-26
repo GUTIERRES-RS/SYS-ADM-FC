@@ -26,7 +26,7 @@ if ( $LANC_GRP_ID_DESCR=='' | $LANC_GRP_ID_DESCR=='0' | $LANC_DATA=='' | $D_X_A=
 // INI TOSATS ALERTA
 
 	$ALERT = "NO_FILTER";
-	$INFO  = '<strong>Aviso:</strong> Para inserir ou editar lançamentos é necessário que todos os campos sejam preenchidos.<br />No campo DATA a mesma deve estar completa.<br /> Ex: "dd/mm/aaaa" e no campo GRUPO pelo menos um deve ser selecionado.';
+	$INFO  = '<strong>Aviso:</strong> Para inserir ou editar '.$TITULO.' é necessário que todos os campos sejam preenchidos.<br />No campo DATA a mesma deve estar completa.<br /> Ex: "dd/mm/aaaa" e no campo GRUPO pelo menos um deve ser selecionado.';
 
 include ('alert_toasts.php');
 
@@ -37,6 +37,7 @@ include ('alert_toasts.php');
 include ('lancamentos_modal_insert.php');
 
 ?>
+
 <script type="text/javascript">
 	$(document).ready(function() {
 
@@ -55,8 +56,9 @@ include ('lancamentos_modal_insert.php');
 if ( isset($_POST['INSERT']) || isset($_POST['LANC_EDIT']) || isset($_POST['ALTERAR']) || isset($_POST['DELETAR']) ) {
 
 	//Formata a Data para consulta SQL separando DD/MM/AAAA
-	$LANC_DATA   = $_POST['LANC_DATA'];
-	$LANC_GRP_ID = $_POST['LANC_GRP_ID'];
+	$LANC_DATA   	   = $_POST['LANC_DATA'];
+	$LANC_GRP_ID 	   = $_POST['LANC_GRP_ID'];
+	$LANC_GRP_ID_DESCR = $_POST['LANC_GRP_ID_DESCR'];
 	
 ?>
 <script type="text/javascript">
@@ -64,7 +66,7 @@ if ( isset($_POST['INSERT']) || isset($_POST['LANC_EDIT']) || isset($_POST['ALTE
 
         $('#Modal_INSERT').modal('show');
 
-		$('#LANC_GRP_ID_DESCR').selectpicker('val', <? echo "'".$LANC_GRP_ID."'";?>);
+		$('#LANC_GRP_ID_DESCR').selectpicker('val', <? echo "'".$LANC_GRP_ID_DESCR."'";?>);
 
     });
 </script>
@@ -82,7 +84,7 @@ if ( isset($_POST['INSERT']) || isset($_POST['LANC_EDIT']) || isset($_POST['ALTE
 //------------------------------------------------- FIM POST OPTIONS INSERT_LANC --------------------------------------------------------
 ?>
 
-				<form action="?pag=painel&sec=index&vp=lancamentos" method="post" enctype="multipart/form-data">
+				<form action="<?=$_SERVER['REQUEST_URI'];?>" method="post" enctype="multipart/form-data">
 	
 					<div class="input-group mb-3">
 						<div class="input-group-prepend">
@@ -95,12 +97,12 @@ if ( isset($_POST['INSERT']) || isset($_POST['LANC_EDIT']) || isset($_POST['ALTE
 							<span class="input-group-text">GRUPO</span>
 						</div>
 
-						<select id="LANC_GRP_ID_DESCR" name="LANC_GRP_ID_DESCR" class="form-control selectpicker" data-max-options="1" data-live-search="true" data-style="custom-select" data-width="75%" multiple>
+						<select id="LANC_GRP_ID_DESCR" name="LANC_GRP_ID_DESCR" class="form-control selectpicker" data-max-options="1" data-live-search="true" data-style="custom-select" data-width="20%" multiple>
 
 <?							
 $sql_GRP = "SELECT * FROM lanc_grupos WHERE id_empresa='$S_EMP_ID' ORDER BY descricao ASC;";
 //echo "$sql_GRP";
-$result_GRP  = mysqli_query($connect, $sql_GRP);
+$result_GRP  = mysqli_query($CONNECT_CLIENTE, $sql_GRP);
 
 while ($row_GRP  = mysqli_fetch_assoc($result_GRP )) {
 

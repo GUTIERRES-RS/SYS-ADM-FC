@@ -4,7 +4,7 @@
  * Conexão MySql
 /*----------------------------------------------------------------------------*/
 
-include ('db.php');
+include ('db_primary.php');
 
 //echo 'BD Conectado. <BR>';
 //@mysqli_close($connect);
@@ -50,4 +50,9 @@ $TO_D = date("d");
 $TO_M = date("m");
 $TO_A = date("Y");
 
-?>
+if ( $S_EMP_ID!='' ) {
+
+include ('db_cliente.php');
+include ('fc.all.php');
+
+}

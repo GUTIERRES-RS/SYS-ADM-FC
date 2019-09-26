@@ -10,7 +10,7 @@
 		<li class="breadcrumb-item active">Grupos</li>
 		</ol>
 
-		<div class="row overflow-auto">
+		<div class="row">
 			<div class="col-12">
 <!--Ajuda alerta hide show-->
 <script>
@@ -27,6 +27,12 @@ $(document).ready(function(){
 				</div>
 
 <? include ('grupos_modal_insert.php'); ?>
+
+			</div>
+		</div>
+
+		<div class="row overflow-auto">
+			<div class="col-12">
 					
 				<div class="input-group mb-3">
 					<div class="input-group">
@@ -36,21 +42,21 @@ $(document).ready(function(){
 					</div>
 				</div>
 
-				<table class="table table-striped">
+				<table class="table table-striped text-nowrap table-sm">
 				  <thead>
 					<tr class="bg-primary text-white">
 					  <th scope="col">ID</th>
 					  <th scope="col">DESCRIÇÃO</th>
-					  <th scope="col">AÇÕES</th>
+					  <th scope="col" class="text-center" style="width:30px;">AÇÕES</th>
 					</tr>
 				  </thead>
 
 				  <tbody>
 
 <?
-$sql_GRP = "SELECT * FROM lanc_grupos WHERE id_empresa='$S_EMP_ID' ORDER BY descricao DESC;";
+$sql_GRP = "SELECT * FROM lanc_grupos WHERE id_empresa='$S_EMP_ID' ORDER BY descricao ASC;";
 //echo "$sql_GRP";
-$result_GRP  = mysqli_query($connect, $sql_GRP);
+$result_GRP  = mysqli_query($CONNECT_CLIENTE, $sql_GRP);
 
 while ($row_GRP  = mysqli_fetch_assoc($result_GRP )) {
 
@@ -61,27 +67,30 @@ while ($row_GRP  = mysqli_fetch_assoc($result_GRP )) {
 
 $GRP_ID = $_POST['GRP_ID'];
 
-if ( $VW_GRP_ID=="$GRP_ID" ) { $BG_TR_L="bg-info text-white"; } else { $BG_TR_L=""; }
+if ( $VW_GRP_ID=="$GRP_ID" ) { $BG_TR_L="bg-warning"; } else { $BG_TR_L=""; }
 
 ?>
 
 					<tr class="<? echo "$BG_TR_L";?>">
 					  <th scope="row"><? echo "$VW_GRP_ID";?></th>
 					  <td><? echo "$VW_GRP_DESCR";?></td>
-					  <td class="align-right" style="width:90px;">
-					  
-						<div class="float-left">
-							<!-- Button trigger modal -->
-							<button class="btn btn-sm btn-primary btn-link text-white" data-toggle="modal" data-target="#Modal_<? echo "$VW_GRP_ID";?>">
-								<i class="fa fa-fw fa-pencil" data-toggle="tooltip" data-placement="top" title="EDITAR"></i>
-							</button>
+					  <td class="text-left">
+
+						<div class="d-inline-block">
+							<form action="<?=$_SERVER['REQUEST_URI'];?>" method="post" enctype="multipart/form-data">
+
+								<input type="hidden" name="GRP_ID" value="<? echo "$VW_GRP_ID";?>" />
+								<!-- Button trigger modal -->
+								<button class="btn btn-sm btn-primary btn-link text-white" name="EDITAR_GRP_<? echo "$VW_GRP_ID";?>">
+									<i class="fa fa-fw fa-pencil" data-toggle="tooltip" data-placement="left" title="EDITAR"></i>
+								</button>
+
+							</form>
 						</div>
 						
-						<div class="float-right" style="width:10px;">&nbsp;</div>
-						
-						<div class="float-right">
+						<div class="d-inline-block">
 							<!-- Button trigger modal -->
-							<form action="?pag=painel&sec=index&vp=grupos" method="post" enctype="multipart/form-data">
+							<form action="<?=$_SERVER['REQUEST_URI'];?>" method="post" enctype="multipart/form-data">
 							
 								<input type="hidden" name="GRP_ID" value="<? echo "$VW_GRP_ID";?>" />
 								<input type="hidden" name="GRP_DESCR" value="<? echo "$VW_GRP_DESCR";?>" />
@@ -95,9 +104,29 @@ if ( $VW_GRP_ID=="$GRP_ID" ) { $BG_TR_L="bg-info text-white"; } else { $BG_TR_L=
 
 					  </td>
 					</tr>
-						<!-- Modal -->
+
+<!-- Modal -->
+<?
+if(isset($_POST['EDITAR_GRP_'.$VW_GRP_ID.''])) {
+?>
+					<tr>
+					  <th colspan="7">
+					  <span class="badge badge-secondary">EDITANDO ID.:</span> <span class="badge badge-warning"><? echo"$VW_GRP_ID";?></span>
+<script type="text/javascript">
+	$(document).ready(function() {
+        $('#Modal_<? echo "$VW_GRP_ID";?>').modal('show');
+    });
+</script>
+
 <? include ('grupos_modal_update.php');?>
-						<!-- Modal -->
+
+					  </th>
+					</tr>
+<?
+}
+?>
+<!-- Modal -->
+
 <?
 }
 ?>

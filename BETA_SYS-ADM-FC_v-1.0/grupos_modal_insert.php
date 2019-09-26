@@ -1,11 +1,13 @@
 
-			<form action="?pag=painel&sec=index&vp=grupos" method="post" enctype="multipart/form-data">
+			<form action="<?=$_SERVER['REQUEST_URI'];?>" method="post" enctype="multipart/form-data">
 
 				<div class="modal fade" id="Modal_INSERT" tabindex="-1" role="dialog" aria-labelledby="ModalLabel_INSERT" aria-hidden="true">
 				  <div class="modal-dialog modal-lg" role="document">
 					<div class="modal-content">
 					  <div class="modal-header">
-						<h5 class="modal-title" id="ModalLabel_INSERT">INSERIR NOVO GRUPO <small class="text-muted">Preecha abaixo com os dados do novo Grupo</small></h5>
+
+						<h6 class="modal-title" id="ModalLabel_INSERT">INSERIR NOVO GRUPO: <small class="text-muted">Preecha abaixo com os dados do novo Grupo</small></h6>
+
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						  <span aria-hidden="true">&times;</span>
 						</button>

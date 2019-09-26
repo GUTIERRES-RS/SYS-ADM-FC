@@ -8,15 +8,15 @@
 		<li class="breadcrumb-item">
 		  <a href="?pag=painel&sec=index&vp=home">Painel</a>
 		</li>
-		<li class="breadcrumb-item active">Agendamentos</li>
+		<li class="breadcrumb-item active">Page Blank</li>
 		</ol>
 
 		<div class="row">
 		
 			<div class="col-12">
 	
-				<h3><span class="text-warning">Agendamentos:</span></h3>
-				<p>Aqui você vai agendar Entradas e Saídas</p>
+				<h3><span class="text-warning">Page Blank:</span></h3>
+				<p>Aqui você vai "Page Blank"</p>
 
 				<hr>
 
